@@ -116,6 +116,7 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
 .sb-label{font-size:0.6rem;font-weight:500;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:3px;}
 .sb-val{font-family:'Playfair Display',serif;font-size:2.6rem;color:#fff;font-weight:600;line-height:1;letter-spacing:-0.02em;}
 .sb-sub{font-size:0.68rem;color:rgba(255,255,255,0.45);margin-top:4px;font-weight:300;}
+.sb-source{font-size:0.6rem;color:rgba(255,255,255,0.25);font-weight:300;margin-top:5px;letter-spacing:0.01em;}
 .sb-assumptions{font-size:0.63rem;color:rgba(255,255,255,0.32);font-weight:300;margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.08);letter-spacing:0.01em;line-height:1.6;}
 .sb-assumptions strong{font-weight:500;color:rgba(255,255,255,0.5);}
 .sb-right{display:flex;gap:8px;flex-wrap:wrap;}
@@ -131,7 +132,7 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
 .decision-label span{font-weight:600;color:var(--ink-mid);}
 
 /* ── HARD / SOFT VALUE SPLIT ─────────────────── */
-.value-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.1rem;}
+.value-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem;}
 .vs-box{border-radius:var(--radius-md);padding:.9rem 1rem;}
 .vs-box.hard{background:#eaf4ee;border:1px solid rgba(26,107,69,0.18);}
 .vs-box.soft{background:#f0f4f8;border:1px solid rgba(26,58,92,0.12);}
@@ -180,13 +181,14 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
 .tag-trust{background:#fdf1ec;color:#8a3215;}
 .tag-sales{background:#f8f0e8;color:#5c3a1a;}
 .tag-individual{background:#f0e8f8;color:#3a1a5c;}
+.tag-culture{background:#eaf4ee;color:#1a5c3a;}
 
 /* ── BREAKDOWN ───────────────────────────────── */
-.breakdown-box{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-md);padding:1.1rem 1.3rem;margin-bottom:1.1rem;}
+.breakdown-box{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-md);padding:1.1rem 1.3rem;margin-bottom:1.25rem;}
 .bb-title{font-size:0.6rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-light);margin-bottom:14px;}
 
 /* Driver block — vertical grouping with breathing room between drivers */
-.bb-driver{margin-bottom:18px;}
+.bb-driver{margin-bottom:20px;}
 .bb-driver:last-of-type{margin-bottom:0;}
 
 /* Driver title row */
@@ -195,7 +197,7 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
 .bb-driver-type{font-size:0.58rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);}
 
 /* Short explanation line under driver title */
-.bb-driver-desc{font-size:0.62rem;color:#b0aba2;font-weight:300;font-style:italic;padding:5px 0 3px;line-height:1.5;}
+.bb-driver-desc{font-size:0.61rem;color:#b8b3ab;font-weight:300;font-style:italic;padding:5px 0 3px;line-height:1.5;}
 
 /* Input rows within a driver */
 .bb-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:0.75rem;border-bottom:1px solid rgba(228,224,216,0.5);}
@@ -204,15 +206,15 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
 .bb-row .bb-val{font-weight:500;color:var(--ink);white-space:nowrap;margin-left:8px;}
 
 /* Source citation inline */
-.source-tag{display:inline-block;font-size:0.58rem;font-weight:300;color:var(--ink-light);font-style:italic;margin-left:5px;letter-spacing:0;}
+.source-tag{display:inline-block;font-size:0.57rem;font-weight:300;color:#b8b3ab;font-style:italic;margin-left:5px;letter-spacing:0;}
 
 /* Result line — clearly separated and more prominent */
-.bb-result{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0 4px;margin-top:6px;border-top:1px solid var(--rule);}
+.bb-result{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0 4px;margin-top:8px;border-top:1px solid var(--rule);}
 .bb-result span:first-child{font-size:0.76rem;font-weight:700;color:var(--ink);}
 .bb-result .bb-val{font-size:0.92rem;font-weight:700;color:var(--ink);white-space:nowrap;margin-left:8px;}
 
 /* Summary block */
-.bb-summary{margin-top:18px;padding-top:14px;border-top:2px solid var(--rule);}
+.bb-summary{margin-top:20px;padding-top:14px;border-top:2px solid var(--rule);}
 .bb-summary-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:0.75rem;border-bottom:1px solid rgba(228,224,216,0.5);}
 .bb-summary-row:last-child{border-bottom:none;padding-top:8px;}
 .bb-summary-row span:first-child{color:var(--ink-mid);font-weight:300;}
@@ -360,9 +362,10 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
     <div class="field">
       <label>How does your business primarily create value?</label>
       <select id="valueLens" onchange="calc()">
-        <option value="cost">Cost efficiency / labor cost (manufacturing, logistics, ops)</option>
-        <option value="revenue">Revenue per employee (sales, tech, financial services)</option>
-        <option value="output">Output / throughput (healthcare, retail, hospitality, units)</option>
+        <option value="cost">Cost efficiency (labor &amp; operating cost driven)</option>
+        <option value="revenue">Revenue per employee (sales &amp; output driven)</option>
+        <option value="output">Capacity / throughput (volume &amp; utilization driven)</option>
+        <option value="stability">Workforce stability (retention driven)</option>
       </select>
       <div class="field-hint">Changes how results are framed — math stays the same</div>
     </div>
@@ -435,7 +438,7 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
         <input type="range" id="realize" min="25" max="100" step="25" value="50" oninput="calc()">
         <span class="realize-pct" id="realizeOut">50%</span>
       </div>
-      <div class="field-hint">Applied to engagement &amp; manager lift — not retention. "What % of the modeled value will actually show up in the business?"</div>
+      <div class="field-hint">Applies to productivity gains only, not hard cost savings &nbsp;·&nbsp; "What % of the modeled value will actually show up in the business?"</div>
     </div>
 
     <div class="field" id="revenueField" style="display:none;">
@@ -503,6 +506,10 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
         <div class="cc-name">Project failures &amp; overruns</div>
         <div class="cc-tag">PM for Unofficial PMs &rarr; all</div>
       </div>
+      <div class="challenge-chip" data-id="ai" onclick="toggleChallenge(this)">
+        <div class="cc-name">AI adoption &amp; team readiness</div>
+        <div class="cc-tag">Leading AI Adoption &rarr; leaders</div>
+      </div>
     </div>
 
   </div>
@@ -534,6 +541,7 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
             <div class="sb-label" id="bannerLabel">Estimated total annual value</div>
             <div class="sb-val" id="totalVal">—</div>
             <div class="sb-sub" id="bannerSub">Base scenario · 50% value capture applied</div>
+            <div class="sb-source">Based on conservative benchmarks from Gallup and SHRM</div>
             <div class="sb-assumptions"><strong>Conservative assumptions:</strong> &nbsp;10% of disengaged employees improve &nbsp;·&nbsp; 1% manager-driven output lift &nbsp;·&nbsp; 10% reduction in preventable turnover</div>
           </div>
           <div class="sb-right">
@@ -558,13 +566,13 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
         <div class="decision-label">Decision view: &nbsp;<span>Hard savings</span> = verified · shows up in budget &nbsp;&nbsp;<span>Operational value</span> = capacity · performance leverage</div>
         <div class="value-split">
           <div class="vs-box hard">
-            <div class="vs-type">Hard savings — cash out avoided</div>
+            <div class="vs-type">Hard savings (realized cash impact)</div>
             <div class="vs-name">Retention</div>
             <div class="vs-val" id="retentionVal">—</div>
             <div class="vs-sub">Exits avoided × replacement cost. No realization discount — these are real avoided costs.</div>
           </div>
           <div class="vs-box soft" id="softBox">
-            <div class="vs-type">Operational / capacity value</div>
+            <div class="vs-type">Operational value (modeled productivity impact)</div>
             <div class="vs-name">Engagement + Manager Lift</div>
             <div class="vs-val" id="opVal">—</div>
             <div class="vs-sub" id="opValSub">Productivity &amp; output gains after <span id="realizeLabel">50%</span> value capture applied.</div>
@@ -635,7 +643,7 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
               <span class="bb-driver-type">Operational value</span>
             </div>
             <div class="bb-driver-desc">Output lift from better-equipped managers. Gallup 2025: 70% of team engagement variance is attributable to the manager. Model uses only 1% team output lift.</div>
-            <div class="bb-row"><span>Manager team lift <span class="source-tag">managers × avg 7 direct reports × 1% output lift</span></span><span class="bb-val" id="bLeaderCalc">—</span></div>
+            <div class="bb-row"><span id="bLeaderCalc">Manager team lift</span><span class="bb-val" id="bLeaderCalcVal">—</span></div>
             <div class="bb-result"><span>Manager effectiveness value (<span id="bRealizeLabel2">50%</span> capture)</span><span class="bb-val" id="bLeader">—</span></div>
           </div>
 
@@ -680,8 +688,8 @@ const COURSES = [
   {
     id:'trust',
     name:'Leading at the Speed of Trust®',
-    tag:'trust',
-    tagLabel:'Trust',
+    tag:'culture',
+    tagLabel:'Culture',
     desc:'Teaches leaders that trust is a tangible, measurable performance multiplier. When trust is low, speed decreases and cost increases — these are "trust taxes." This course helps leaders convert trust taxes into trust dividends, propelling their teams further, faster.',
     outcomes:['Converts low-trust tax into high-trust dividend','Accelerates speed of collaboration & decision-making','Measurable culture shift toward high trust'],
     challenge:'trust'
@@ -725,8 +733,8 @@ const COURSES = [
   {
     id:'hcs',
     name:'Helping Clients Succeed®: Strikingly Different Selling',
-    tag:'sales',
-    tagLabel:'Sales',
+    tag:'execution',
+    tagLabel:'Execution',
     desc:'Redefines selling as helping. Equips sales professionals to differentiate based on what matters most to the customer, become trusted advisors, and consistently deliver predictable sales results — not just one-off wins.',
     outcomes:['Higher win rates through differentiation','Shorter sales cycles via trusted advisor status','Predictable, repeatable pipeline results'],
     challenge:'sales'
@@ -743,8 +751,8 @@ const COURSES = [
   {
     id:'change',
     name:'Change: How to Turn Uncertainty Into Opportunity™',
-    tag:'execution',
-    tagLabel:'Execution',
+    tag:'culture',
+    tagLabel:'Culture',
     desc:'Equips employees at all levels to accelerate and optimize through change by shifting from resistance to opportunity. Most useful for organizations navigating transformation, restructuring, or rapid market shifts.',
     outcomes:['Faster change adoption at every level','Reduced resistance and disengagement','Leaders and teams who thrive through uncertainty'],
     challenge:'change'
@@ -752,8 +760,8 @@ const COURSES = [
   {
     id:'trustinspire',
     name:'Trust & Inspire™',
-    tag:'trust',
-    tagLabel:'Trust',
+    tag:'culture',
+    tagLabel:'Culture',
     desc:'The "Command & Control" style prevalent in 92% of organizations doesn\'t create the commitment or performance needed today. Trust & Inspire equips leaders with a modern, human-centered approach — modeling, trusting, and inspiring — that gets phenomenal results while growing people.',
     outcomes:['Shifts culture from compliance to commitment','Releases — rather than contains — team potential','Higher engagement, retention, and performance'],
     challenge:'turnover'
@@ -770,8 +778,8 @@ const COURSES = [
   {
     id:'pm',
     name:'Project Management for the Unofficial Project Manager™',
-    tag:'execution',
-    tagLabel:'Execution',
+    tag:'individual',
+    tagLabel:'Individual',
     desc:'Most projects fail not from lack of process — but from lack of the right mindset and people skills. This course blends agile and waterfall best practices to equip non-PMs to lead high-value projects, engage stakeholders, and deliver results.',
     outcomes:['Reduces costly project failures and overruns','Engages cross-functional teams without formal authority','PMI-recognized; contributes to PDU credits'],
     challenge:'projects'
@@ -779,11 +787,65 @@ const COURSES = [
   {
     id:'lcl',
     name:'Leading Customer Loyalty®',
-    tag:'sales',
-    tagLabel:'Sales',
+    tag:'culture',
+    tagLabel:'Culture',
     desc:'Over 70% of a great customer experience comes from the behavior of frontline employees. This course teaches frontline managers to model, teach, and reinforce empathy, responsibility, and generosity — turning average employees into loyalty drivers. FranklinCovey clients frequently see 5–10X ROI within 2–3 years.',
     outcomes:['5–10% more delighted customers in 2–3 years','Bottom-up loyalty approach that actually sticks','Frontline managers as customer experience multipliers'],
     challenge:'customer'
+  },
+  {
+    id:'disrupt',
+    name:'Disrupt Everything: Innovate for Impact™',
+    tag:'leadership',
+    tagLabel:'Leadership',
+    desc:'Disruption is constant — but only 10% of leaders say their organizations pivot quickly and effectively. Based on the NYT bestselling book co-authored by James Patterson and Patrick Leddin, this course gives leaders a four-step Disruptive Loop (Discern, Behave, Achieve, Refine) and 16 Positive Disruptive Behaviors to spark innovation, make faster decisions, and drive sustained growth even when the rules change overnight.',
+    outcomes:['Reframes disruption as a strategic advantage','Activates hidden team strengths via Disruptive Strengths framework','Moves leaders from clinging to the past to making evidence-based decisions'],
+    challenge:'change'
+  },
+  {
+    id:'leadbeyond',
+    name:'Leading Beyond Yourself™',
+    tag:'leadership',
+    tagLabel:'Leadership',
+    desc:'The most failure-prone career transition is moving from individual contributor to leader. Leading Beyond Yourself equips new and emerging leaders to make the critical shift from "I succeed when I deliver results" to "I succeed only when my team succeeds" — building the mindsets, skills, and confidence to accelerate trust, engagement, and performance from day one.',
+    outcomes:['Closes the dangerous IC-to-leader transition gap','Accelerates trust and engagement in new leaders\' teams','Reduces new-leader failure rates that cost organizations significantly'],
+    challenge:'leadership_first'
+  },
+  {
+    id:'leadingai',
+    name:'Leading AI Adoption: Accelerate AI Impact Through Empathy and Action',
+    tag:'leadership',
+    tagLabel:'Leadership',
+    desc:'AI sparks both excitement and fear — and adoption stalls without the right leadership. This course equips leaders to build AI momentum on their teams by combining empathy and action: clarifying the game plan, spotting high-value AI opportunities, modeling confidence, and celebrating wins. The result is a team that partners with AI to think, decide, create, and communicate more effectively.',
+    outcomes:['Speeds AI adoption across the organization','Converts AI fear into clarity and readiness to experiment','Delivers higher-value outcomes faster through human + AI partnership'],
+    challenge:'change'
+  },
+  {
+    id:'writingresults',
+    name:'Writing for Results™',
+    tag:'individual',
+    tagLabel:'Individual',
+    desc:'Unclear writing slows everything down — stalling projects, frustrating people, and derailing collaboration. Writing for Results gives every learner a flexible, repeatable three-step process (outline, draft, review) to produce action-oriented messages. Learners focus on the reader, structure ideas clearly, and write in an authentic tone that inspires action rather than confusion.',
+    outcomes:['Eliminates costly communication breakdowns','Produces clearer, faster decisions across the organization','Builds a culture of focused, reader-first communication'],
+    challenge:'conflict'
+  },
+  {
+    id:'fivechoices',
+    name:'The 5 Choices to Extraordinary Productivity®',
+    tag:'individual',
+    tagLabel:'Individual',
+    desc:'In today\'s workplace, time management alone is not enough. The 5 Choices combines timeless principles with the latest neuroscience to help individuals master decision management, attention management, and energy management. Participants learn to make selective, high-impact choices about where to invest their time — moving from buried and reactive to focused and extraordinary.',
+    outcomes:['Measurable increase in individual productivity','Reduces decision fatigue and attention drain','Renews energy so people do their best work consistently'],
+    challenge:'7habits'
+  },
+  {
+    id:'presentation',
+    name:'Presentation Advantage®',
+    tag:'individual',
+    tagLabel:'Individual',
+    desc:'Poor presentations are one of the greatest hidden costs of the modern workplace — wasted time, unproductive meetings, and lost opportunities. Presentation Advantage equips people at every level to consistently deliver highly successful presentations using the latest neuroscience to inform, influence, and persuade audiences live and virtually.',
+    outcomes:['Closes the presentation-competency gap across the org','Leaders and teams who persuade and influence with confidence','Eliminates lost revenue from unclear, unconvincing communication'],
+    challenge:'conflict'
   }
 ];
 
@@ -792,23 +854,25 @@ const TAG_COLORS = {
   leadership:'tag-leadership',
   execution:'tag-execution',
   sales:'tag-sales',
-  individual:'tag-individual'
+  individual:'tag-individual',
+  culture:'tag-culture'
 };
 
 const CHALLENGE_COURSES = {
-  trust:['trust'],
-  trustinspire:['trustinspire'],
-  leadership_senior:['4erl'],
-  leadership_first:['sixcp'],
-  '7habits':['7habits'],
-  multipliers:['multipliers'],
-  '4dx':['4dx'],
-  '6cp':['sixcp'],
-  change:['change'],
-  conflict:['navdifficult'],
-  sales:['hcs'],
-  customer:['lcl'],
-  projects:['pm']
+  trust:            ['trust'],
+  trustinspire:     ['trustinspire'],
+  leadership_senior:['4erl', 'disrupt', 'multipliers'],
+  leadership_first: ['sixcp', 'leadbeyond'],
+  '7habits':        ['7habits', 'fivechoices'],
+  multipliers:      ['multipliers'],
+  '4dx':            ['4dx'],
+  '6cp':            ['sixcp'],
+  change:           ['change', 'disrupt'],
+  conflict:         ['navdifficult', 'writingresults', 'presentation'],
+  sales:            ['hcs'],
+  customer:         ['lcl'],
+  projects:         ['pm'],
+  ai:               ['leadingai']
 };
 
 // ── TABS ─────────────────────────────────────────────────────────────────────
@@ -994,9 +1058,10 @@ function calc() {
 
   // ── BANNER LABELS — dynamic by lens × view ────────────────────────────────
   const bannerLabels = {
-    cost:    isHardOnly ? 'Hard savings — cash out avoided'               : 'Estimated annual cost savings',
-    revenue: isHardOnly ? 'Hard savings — cash out avoided'               : 'Estimated revenue capacity created',
-    output:  isHardOnly ? 'Hard savings — cash out avoided'               : 'Estimated operational capacity gained'
+    cost:      isHardOnly ? 'Hard savings — cash out avoided' : 'Estimated annual cost savings',
+    revenue:   isHardOnly ? 'Hard savings — cash out avoided' : 'Estimated revenue capacity created',
+    output:    isHardOnly ? 'Hard savings — cash out avoided' : 'Estimated operational capacity gained',
+    stability: isHardOnly ? 'Hard savings — cash out avoided' : 'Estimated workforce stability value'
   };
   // ── SCENARIO MULTIPLIER ───────────────────────────────────────────────────
   const scenMultipliers = { low: 0.5, base: 1.0, high: 1.5 };
@@ -1048,9 +1113,9 @@ function calc() {
   const bNoteEl = document.getElementById('breakdownNote');
   if (bNoteEl) bNoteEl.style.display = isHardOnly ? 'block' : 'none';
 
-  // Hard / soft split
-  setText('retentionVal', fmt(retentionVal));
-  setText('opVal',        fmt(opVal));
+  // Hard / soft split — apply scenario multiplier so components match headline
+  setText('retentionVal', fmt(retentionVal * scenMult));
+  setText('opVal',        fmt(opVal        * scenMult));
   setText('realizeLabel', realizePct);
   setHTML('opValSub',     'Productivity &amp; output gains after <strong>'+realizePct+'</strong> value capture applied.');
 
@@ -1058,16 +1123,20 @@ function calc() {
   const hiresAvoided = Math.round(exitsAvoided);
   if(lens==='cost'){
     setHTML('interp1', 'Equivalent to <strong>avoiding '+hiresAvoided+' replacement hire'+(hiresAvoided!==1?'s':'')+' this year</strong> in hard recruiting &amp; onboarding cost.');
-    setHTML('interp2', 'Equivalent to <strong>'+equivFTEs+' additional employees worth of productive capacity</strong> — without adding headcount.');
-    setHTML('interp3', 'Frees up an estimated <strong>'+mgrHoursFree.toLocaleString()+' manager hours</strong> annually that are currently lost to disengagement and ineffective oversight.');
+    setHTML('interp2', 'Equivalent to <strong>'+equivFTEs+' additional employees worth of productive capacity</strong> — without adding headcount or payroll.');
+    setHTML('interp3', 'Manager effectiveness gains free up <strong>'+mgrHoursFree.toLocaleString()+' manager hours</strong> annually — reducing supervisory overhead and improving operating margin.');
   } else if(lens==='revenue'){
     setHTML('interp1', 'Engagement and manager lift translate to approximately <strong>'+fmt(revenueEquiv)+' in potential revenue output</strong> at your revenue-per-employee rate.');
-    setHTML('interp2', 'Equivalent to adding <strong>'+equivFTEs+' quota-carrying employees</strong> worth of productive capacity to your existing team.');
-    setHTML('interp3', 'Avoiding <strong>'+hiresAvoided+' exits</strong> this year eliminates '+fmt(retentionVal)+' in replacement cost that would otherwise hit this year\'s P&L.');
+    setHTML('interp2', 'Equivalent to adding <strong>'+equivFTEs+' quota-carrying employees</strong> worth of productive capacity — without the hiring cost.');
+    setHTML('interp3', 'Avoiding <strong>'+hiresAvoided+' exits</strong> this year protects '+fmt(retentionVal)+' in revenue-generating capacity that would otherwise be lost to backfill delay.');
+  } else if(lens==='stability'){
+    setHTML('interp1', 'Retention savings of <strong>'+fmt(retentionVal)+'</strong> represent real, budget-visible cash — '+hiresAvoided+' fewer backfill hire'+(hiresAvoided!==1?'s':'')+' at '+fmt(effectiveReplaceCost)+' each.');
+    setHTML('interp2', 'Beyond retention, engagement gains add the equivalent of <strong>'+equivFTEs+' employees worth of capacity</strong> — without adding headcount.');
+    setHTML('interp3', 'Reducing exits also preserves <strong>institutional knowledge and team continuity</strong> — the hidden cost of disruption that never appears in recruiting budgets.');
   } else {
-    setHTML('interp1', 'Equivalent to a <strong>'+outputPct+'% increase in effective throughput</strong> from your existing workforce — no new hires.');
-    setHTML('interp2', 'Like gaining <strong>'+equivFTEs+' additional full-capacity employees</strong> without growing headcount or payroll.');
-    setHTML('interp3', 'Retention savings of <strong>'+fmt(retentionVal)+'</strong> represent real cash — avoiding '+hiresAvoided+' backfill hire'+(hiresAvoided!==1?'s':'')+' at '+fmt(effectiveReplaceCost)+' each.');
+    setHTML('interp1', 'Equivalent to a <strong>'+outputPct+'% increase in effective throughput</strong> from your existing workforce — more capacity delivered with the same headcount.');
+    setHTML('interp2', 'Like gaining <strong>'+equivFTEs+' additional full-capacity employees</strong> worth of utilization — without growing payroll.');
+    setHTML('interp3', 'Retention savings of <strong>'+fmt(retentionVal)+'</strong> represent real cash — avoiding '+hiresAvoided+' backfill hire'+(hiresAvoided!==1?'s':'')+' that would otherwise reduce available throughput.');
   }
 
   // interp4 — grounded in their actual numbers
@@ -1091,7 +1160,8 @@ function calc() {
   setText('bEngagedVal', fmtFull(engagementVal)+'  (18% cost × 10% improvement × '+realizePct+' capture)');
   setText('bExits',      exitsAvoided.toFixed(1)+' exits avoided  (10% of '+annualExits.toFixed(0)+' annual exits)');
   setText('bRetention',  fmtFull(retentionVal)+'  ('+fmtFull(effectiveReplaceCost)+' replacement cost × exits avoided)');
-  setText('bLeaderCalc', mgrs+' managers × '+avgTeamSize+' avg team × 1% lift × '+realizePct+' capture (Gallup 2025: managers drive 70% of team engagement)');
+  setText('bLeaderCalc',    mgrs+' managers × '+avgTeamSize+' direct reports × 1% output lift × '+realizePct+' capture');
+  setText('bLeaderCalcVal', fmtFull(leaderVal));
   setText('bLeader',     fmtFull(leaderVal));
   setText('bInvest',     fmtFull(investment));
   setText('bNet',        fmtFull(netVal));
