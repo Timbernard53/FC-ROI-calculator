@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FranklinCovey All Access Pass — ROI Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0f2137;
+  --navy-mid:#1a3a5c;
+  --navy-light:#2563a8;
+  --fc-orange:#e8622a;
+  --fc-orange-light:#fdf1ec;
+  --fc-orange-mid:#f5a07a;
+  --cream:#faf8f5;
+  --white:#ffffff;
+  --rule:#e4e0d8;
+  --ink:#1a1a1a;
+  --ink-mid:#4a4a4a;
+  --ink-light:#999;
+  --green:#1a6b45;
+  --green-light:#eaf4ee;
+  --green-mid:#2d9966;
+  --gold:#c49a3c;
+  --gold-light:#fdf7ec;
+  --space-xs:4px;
+  --space-sm:8px;
+  --space-md:16px;
+  --space-lg:24px;
+  --space-xl:32px;
+  --radius:3px;
+  --radius-md:5px;
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* ── HEADER ─────────────────────────────────── */
+.header{background:var(--navy);padding:0;overflow:hidden;}
+.header-inner{display:flex;align-items:stretch;min-height:96px;}
+.header-brand{background:var(--fc-orange);padding:1.25rem 1.75rem;display:flex;flex-direction:column;justify-content:center;min-width:200px;}
+.header-brand .brand-name{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;font-weight:600;line-height:1.2;}
+.header-brand .brand-sub{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-top:4px;}
+.header-title{padding:1.25rem 2rem;display:flex;flex-direction:column;justify-content:center;flex:1;}
+.header-title h1{font-family:'Playfair Display',serif;font-size:1.55rem;color:#fff;font-weight:500;letter-spacing:-0.01em;line-height:1.2;}
+.header-title p{font-size:0.73rem;color:rgba(255,255,255,0.4);font-weight:300;margin-top:5px;letter-spacing:0.04em;}
+.header-seal{padding:1.25rem 2rem;display:flex;align-items:center;gap:8px;margin-left:auto;}
+.seal-box{border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius);padding:7px 13px;text-align:center;}
+.seal-num{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--fc-orange);font-weight:600;line-height:1;}
+.seal-label{font-size:0.58rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:2px;}
+
+/* ── TABS ─────────────────────────────────────── */
+.tabs{background:var(--navy-mid);display:flex;padding:0 2rem;border-bottom:1px solid rgba(255,255,255,0.07);}
+.tab{font-size:0.7rem;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.4);padding:13px 18px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;}
+.tab:hover{color:rgba(255,255,255,0.7);}
+.tab.active{color:#fff;border-bottom-color:var(--fc-orange);}
+
+/* ── MAIN LAYOUT ─────────────────────────────── */
+.body-wrap{display:grid;grid-template-columns:372px 1fr;min-height:calc(100vh - 152px);}
+
+/* ── LEFT PANEL ──────────────────────────────── */
+.left{padding:1.75rem 1.75rem 2rem;background:var(--white);border-right:1px solid var(--rule);}
+
+.section-head{font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-light);margin-bottom:1rem;padding-bottom:6px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:8px;}
+.section-head span{flex:1;}
+
+.field{margin-bottom:1.1rem;}
+.field label{display:block;font-size:0.72rem;font-weight:600;color:var(--ink-mid);margin-bottom:5px;letter-spacing:0.02em;}
+.field-hint{font-size:0.67rem;color:var(--ink-light);font-weight:300;margin-top:4px;line-height:1.5;}
+.input-wrap{position:relative;display:flex;align-items:center;}
+.pfx{position:absolute;left:11px;font-size:0.88rem;color:var(--ink-light);pointer-events:none;z-index:1;}
+.sfx{position:absolute;right:11px;font-size:0.68rem;color:var(--ink-light);pointer-events:none;}
+input[type=number],select{width:100%;padding:9px 12px;font-family:'Inter',sans-serif;font-size:0.88rem;color:var(--ink);background:var(--cream);border:1px solid var(--rule);border-radius:var(--radius);outline:none;transition:border-color .15s,background .15s;-moz-appearance:textfield;appearance:textfield;}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+input[type=number]:focus,select:focus{border-color:var(--navy-light);background:#fff;box-shadow:0 0 0 2px rgba(37,99,168,0.08);}
+.has-pfx input{padding-left:26px;}
+.has-sfx input{padding-right:42px;}
+select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px;}
+
+/* replacement cost state indicators */
+.rc-auto{font-size:0.65rem;color:var(--ink-light);font-style:italic;font-weight:300;}
+.rc-reset{font-size:0.65rem;color:var(--navy-light);font-weight:500;text-decoration:none;border-bottom:1px solid rgba(37,99,168,0.3);padding-bottom:1px;transition:color .15s,border-color .15s;}
+.rc-reset:hover{color:var(--navy);border-color:var(--navy);}
+
+.challenge-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1.25rem;}
+.challenge-chip{background:var(--cream);border:1px solid var(--rule);border-radius:var(--radius);padding:7px 9px;cursor:pointer;transition:all .15s;user-select:none;}
+.challenge-chip.selected{background:var(--navy);border-color:var(--navy);}
+.challenge-chip.selected .cc-name{color:#fff;}
+.challenge-chip.selected .cc-tag{color:rgba(255,255,255,0.5);}
+.cc-name{font-size:0.7rem;font-weight:600;color:var(--ink);line-height:1.3;}
+.cc-tag{font-size:0.6rem;color:var(--ink-light);margin-top:2px;font-weight:300;}
+
+.divider{height:1px;background:var(--rule);margin:1.25rem 0;}
+
+/* ── RIGHT PANEL ─────────────────────────────── */
+.right{padding:1.75rem 2rem 2rem;background:var(--cream);}
+
+/* ── RESULT SCREEN SECTIONS ─────────────────── */
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* Empty */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:400px;color:var(--ink-light);text-align:center;gap:10px;}
+.empty-icon{font-size:2.5rem;opacity:0.15;}
+.empty p{font-size:0.82rem;font-weight:300;font-style:italic;color:var(--ink-light);}
+
+/* ── FINANCE TOGGLE ──────────────────────────── */
+.finance-toggle{display:flex;align-items:center;gap:0;margin-bottom:1rem;border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;background:var(--white);width:fit-content;}
+.ft-btn{font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:6px 14px;cursor:pointer;border:none;background:transparent;color:var(--ink-light);transition:all .15s;white-space:nowrap;}
+.ft-btn:first-child{border-right:1px solid var(--rule);}
+.ft-btn.active{background:var(--navy);color:#fff;}
+.ft-btn:hover:not(.active){background:var(--cream);color:var(--ink);}
+
+/* ── SUMMARY BANNER ──────────────────────────── */
+.summary-banner{background:var(--navy);border-radius:var(--radius-md);padding:1.4rem 1.75rem;margin-bottom:1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.sb-label{font-size:0.6rem;font-weight:500;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:3px;}
+.sb-val{font-family:'Playfair Display',serif;font-size:2.6rem;color:#fff;font-weight:600;line-height:1;letter-spacing:-0.02em;}
+.sb-sub{font-size:0.68rem;color:rgba(255,255,255,0.45);margin-top:4px;font-weight:300;}
+.sb-assumptions{font-size:0.63rem;color:rgba(255,255,255,0.32);font-weight:300;margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.08);letter-spacing:0.01em;line-height:1.6;}
+.sb-assumptions strong{font-weight:500;color:rgba(255,255,255,0.5);}
+.sb-right{display:flex;gap:8px;flex-wrap:wrap;}
+.sb-stat{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:var(--radius);padding:9px 14px;text-align:center;}
+.sb-stat-val{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--fc-orange);font-weight:600;line-height:1;}
+.sb-stat-label{font-size:0.58rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:3px;}
+/* conservative floor context cue under stat labels */
+.sb-stat-context{font-size:0.56rem;font-weight:300;color:rgba(255,255,255,0.28);letter-spacing:0.01em;margin-top:2px;font-style:italic;display:none;}
+.sb-stat-context.visible{display:block;}
+
+/* ── DECISION VIEW LABEL ─────────────────────── */
+.decision-label{font-size:0.63rem;font-weight:400;color:var(--ink-light);margin-bottom:6px;letter-spacing:0.01em;line-height:1.5;}
+.decision-label span{font-weight:600;color:var(--ink-mid);}
+
+/* ── HARD / SOFT VALUE SPLIT ─────────────────── */
+.value-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.1rem;}
+.vs-box{border-radius:var(--radius-md);padding:.9rem 1rem;}
+.vs-box.hard{background:#eaf4ee;border:1px solid rgba(26,107,69,0.18);}
+.vs-box.soft{background:#f0f4f8;border:1px solid rgba(26,58,92,0.12);}
+.vs-type{font-size:0.57rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:3px;}
+.vs-box.hard .vs-type{color:var(--green);}
+.vs-box.soft .vs-type{color:var(--navy-mid);}
+.vs-name{font-size:0.72rem;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.vs-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;line-height:1;}
+.vs-box.hard .vs-val{color:var(--green);}
+.vs-box.soft .vs-val{color:var(--navy-mid);}
+.vs-sub{font-size:0.63rem;color:var(--ink-light);margin-top:4px;font-weight:300;line-height:1.45;}
+.vs-box.soft.dimmed{opacity:0.32;}
+
+/* ── SCENARIO ROW ────────────────────────────── */
+.scenario-section-label{font-size:0.6rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;display:none;}
+.scenario-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:1.1rem;}
+.scen-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-md);padding:9px 11px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;}
+.scen-card:hover{border-color:var(--navy-light);background:#f8fafc;}
+.scen-card.selected{border-color:var(--navy);background:#f0f4f8;}
+.scen-card.base{border-color:var(--navy);background:#f0f4f8;}
+.scen-label{font-size:0.57rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:3px;}
+.scen-card.selected .scen-label,.scen-card.base .scen-label{color:var(--navy);}
+.scen-val{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--ink);line-height:1;}
+.scen-card.selected .scen-val,.scen-card.base .scen-val{color:var(--navy);}
+.scen-sub{font-size:0.6rem;color:var(--ink-light);margin-top:2px;line-height:1.3;}
+
+/* ── INTERPRETATION BOX ──────────────────────── */
+.interp-box{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-md);padding:.9rem 1.2rem;margin-bottom:1.1rem;}
+.interp-head{font-size:0.6rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;}
+.interp-line{font-size:0.78rem;color:var(--ink-mid);font-weight:300;line-height:1.65;padding:4px 0;border-bottom:1px solid var(--rule);}
+.interp-line:last-child{border-bottom:none;}
+.interp-line strong{font-weight:600;color:var(--ink);}
+.interp-line.grounded{font-size:0.74rem;color:var(--ink-light);font-style:italic;}
+
+/* ── COURSES ─────────────────────────────────── */
+.courses-section{margin-bottom:1.1rem;}
+.cs-header{font-size:0.6rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.cs-header::after{content:'';flex:1;height:1px;background:var(--rule);}
+.course-cards{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.cc{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius);padding:9px 11px;}
+.cc-course-name{font-size:0.75rem;font-weight:600;color:var(--ink);margin-bottom:3px;line-height:1.3;}
+.cc-course-desc{font-size:0.66rem;color:var(--ink-mid);line-height:1.5;font-weight:300;}
+.cc-tag{display:inline-block;font-size:0.58rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;padding:2px 6px;border-radius:2px;margin-top:4px;}
+.tag-leadership{background:#e8f0f8;color:#1a3a5c;}
+.tag-execution{background:#e8f4ee;color:#1a5c3a;}
+.tag-trust{background:#fdf1ec;color:#8a3215;}
+.tag-sales{background:#f8f0e8;color:#5c3a1a;}
+.tag-individual{background:#f0e8f8;color:#3a1a5c;}
+
+/* ── BREAKDOWN ───────────────────────────────── */
+.breakdown-box{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-md);padding:1.1rem 1.3rem;margin-bottom:1.1rem;}
+.bb-title{font-size:0.6rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-light);margin-bottom:14px;}
+
+/* Driver block — vertical grouping with breathing room between drivers */
+.bb-driver{margin-bottom:18px;}
+.bb-driver:last-of-type{margin-bottom:0;}
+
+/* Driver title row */
+.bb-driver-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:6px;border-bottom:1px solid var(--rule);margin-bottom:0;}
+.bb-driver-title{font-size:0.72rem;font-weight:700;color:var(--navy);letter-spacing:0.01em;}
+.bb-driver-type{font-size:0.58rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);}
+
+/* Short explanation line under driver title */
+.bb-driver-desc{font-size:0.62rem;color:#b0aba2;font-weight:300;font-style:italic;padding:5px 0 3px;line-height:1.5;}
+
+/* Input rows within a driver */
+.bb-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:0.75rem;border-bottom:1px solid rgba(228,224,216,0.5);}
+.bb-row:last-child{border-bottom:none;}
+.bb-row span:first-child{color:var(--ink-mid);font-weight:300;}
+.bb-row .bb-val{font-weight:500;color:var(--ink);white-space:nowrap;margin-left:8px;}
+
+/* Source citation inline */
+.source-tag{display:inline-block;font-size:0.58rem;font-weight:300;color:var(--ink-light);font-style:italic;margin-left:5px;letter-spacing:0;}
+
+/* Result line — clearly separated and more prominent */
+.bb-result{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0 4px;margin-top:6px;border-top:1px solid var(--rule);}
+.bb-result span:first-child{font-size:0.76rem;font-weight:700;color:var(--ink);}
+.bb-result .bb-val{font-size:0.92rem;font-weight:700;color:var(--ink);white-space:nowrap;margin-left:8px;}
+
+/* Summary block */
+.bb-summary{margin-top:18px;padding-top:14px;border-top:2px solid var(--rule);}
+.bb-summary-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:0.75rem;border-bottom:1px solid rgba(228,224,216,0.5);}
+.bb-summary-row:last-child{border-bottom:none;padding-top:8px;}
+.bb-summary-row span:first-child{color:var(--ink-mid);font-weight:300;}
+.bb-summary-row .bb-val{font-weight:500;color:var(--ink);white-space:nowrap;margin-left:8px;}
+.bb-summary-row.net span:first-child{font-weight:600;color:var(--ink);font-size:0.77rem;}
+.bb-summary-row.net .bb-val{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--green);}
+
+/* Legacy classes — kept for safety, not used in updated markup */
+.bb-section-head{display:none;}
+.bb-row.bb-source span:first-child{color:var(--ink-mid);}
+.bb-row.bb-subtotal span:first-child{font-weight:500;color:var(--ink);}
+.bb-row.total .bb-val{color:var(--green);font-family:'Playfair Display',serif;font-size:1rem;}
+
+/* ── ASSUMPTION NOTE ─────────────────────────── */
+.assumption{background:var(--gold-light);border:1px solid rgba(196,154,60,0.18);border-radius:var(--radius);padding:9px 13px;margin-bottom:1.1rem;font-size:0.68rem;color:#5c3a1a;font-weight:300;line-height:1.6;}
+.assumption strong{font-weight:600;color:var(--gold);}
+
+/* ── CTA ROW ─────────────────────────────────── */
+.cta-row{display:flex;gap:8px;}
+.btn{padding:11px 18px;border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;transition:all .15s;border:none;}
+.btn-primary{background:var(--fc-orange);color:#fff;flex:1;}
+.btn-primary:hover{background:#d05520;}
+.btn-primary.copied{background:var(--green-mid);}
+.btn-secondary{background:var(--white);color:var(--ink-mid);border:1px solid var(--rule);}
+.btn-secondary:hover{background:var(--cream);}
+
+/* ── COURSE DETAIL TAB ───────────────────────── */
+.course-list{display:flex;flex-direction:column;gap:8px;}
+.cd-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-md);overflow:hidden;}
+.cd-header{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;transition:background .15s;}
+.cd-header:hover{background:var(--cream);}
+.cd-htitle{font-size:0.82rem;font-weight:600;color:var(--ink);}
+.cd-htag{display:flex;align-items:center;gap:8px;}
+.cd-body{padding:11px 14px;border-top:1px solid var(--rule);background:var(--cream);display:none;}
+.cd-body.open{display:block;}
+.cd-desc{font-size:0.78rem;color:var(--ink-mid);line-height:1.7;font-weight:300;margin-bottom:7px;}
+.cd-outcomes{display:flex;flex-wrap:wrap;gap:5px;}
+.cd-outcome-chip{font-size:0.63rem;font-weight:600;color:var(--green);background:var(--green-light);border:1px solid rgba(26,107,69,0.13);padding:3px 9px;border-radius:20px;}
+.chevron{font-size:0.68rem;color:var(--ink-light);transition:transform .2s;}
+.chevron.open{transform:rotate(180deg);}
+
+/* ── TOAST ───────────────────────────────────── */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;font-size:0.75rem;font-weight:500;padding:9px 18px;border-radius:var(--radius);transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:999;pointer-events:none;letter-spacing:0.04em;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── REALIZATION SLIDER ──────────────────────── */
+.realize-wrap{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:12px;
+  background:var(--cream);
+  border:1px solid var(--rule);
+  border-radius:var(--radius);
+  padding:8px 12px;
+  transition:border-color .15s;
+}
+.realize-wrap:focus-within{border-color:var(--navy-light);background:#fff;box-shadow:0 0 0 2px rgba(37,99,168,0.08);}
+.realize-wrap input[type=range]{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:2px;background:var(--rule);border-radius:1px;outline:none;cursor:pointer;margin:0;
+}
+.realize-wrap input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--navy);
+  border:2px solid var(--white);box-shadow:0 0 0 1px var(--navy);cursor:pointer;
+}
+.realize-wrap input[type=range]::-moz-range-thumb{
+  width:13px;height:13px;border-radius:50%;background:var(--navy);
+  border:2px solid var(--white);box-shadow:0 0 0 1px var(--navy);cursor:pointer;
+}
+.realize-wrap input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--rule);border-radius:1px;}
+.realize-pct{font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:600;color:var(--ink);min-width:36px;text-align:right;}
+
+/* ── METRIC CARDS (legacy, kept for safety) ──── */
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.1rem;}
+.mc{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius-md);padding:.9rem 1rem;}
+.mc.green{border-color:rgba(26,107,69,0.18);background:var(--green-light);}
+.mc.gold{border-color:rgba(196,154,60,0.2);background:var(--gold-light);}
+.mc-label{font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;}
+.mc.green .mc-label{color:var(--green);}
+.mc.gold .mc-label{color:var(--gold);}
+.mc-val{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--ink);line-height:1;font-weight:600;}
+.mc.green .mc-val{color:var(--green);}
+.mc.gold .mc-val{color:var(--gold);}
+.mc-sub{font-size:0.65rem;color:var(--ink-light);font-weight:300;margin-top:3px;line-height:1.4;}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media(max-width:860px){
+  .body-wrap{grid-template-columns:1fr;}
+  .left{border-right:none;border-bottom:1px solid var(--rule);}
+  .header-inner{flex-wrap:wrap;}
+  .header-seal{display:none;}
+  .tabs{overflow-x:auto;}
+  .course-cards{grid-template-columns:1fr;}
+  .summary-banner{flex-direction:column;align-items:flex-start;}
+  .value-split{grid-template-columns:1fr;}
+}
+@media(max-width:500px){
+  .challenge-grid{grid-template-columns:1fr;}
+  .scenario-row{grid-template-columns:1fr;}
+  .header-brand{min-width:unset;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="brand-name">FranklinCovey</div>
+      <div class="brand-sub">All Access Pass®</div>
+    </div>
+    <div class="header-title">
+      <h1>ROI &amp; Impact Calculator</h1>
+      <p>Quantify the business value of behavior change for your organization</p>
+    </div>
+    <div class="header-seal">
+      <div class="seal-box">
+        <div class="seal-num">160+</div>
+        <div class="seal-label">Countries</div>
+      </div>
+      <div class="seal-box">
+        <div class="seal-num">30+</div>
+        <div class="seal-label">Courses</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('calc',this)">ROI Calculator</div>
+  <div class="tab" onclick="switchTab('courses',this)">Course Library</div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <!-- LEFT: INPUTS -->
+  <div class="left">
+
+    <div class="section-head"><span>Organization profile</span></div>
+
+    <div class="field">
+      <label>How does your business primarily create value?</label>
+      <select id="valueLens" onchange="calc()">
+        <option value="cost">Cost efficiency / labor cost (manufacturing, logistics, ops)</option>
+        <option value="revenue">Revenue per employee (sales, tech, financial services)</option>
+        <option value="output">Output / throughput (healthcare, retail, hospitality, units)</option>
+      </select>
+      <div class="field-hint">Changes how results are framed — math stays the same</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label>Employees impacted / in scope</label>
+      <div class="input-wrap has-sfx">
+        <input type="number" id="emp" value="500" min="1" oninput="calc()">
+        <span class="sfx">people</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Average fully-loaded salary</label>
+      <div class="input-wrap has-pfx">
+        <span class="pfx">$</span>
+        <input type="number" id="salary" value="85000" min="1" oninput="onSalaryChange()">
+      </div>
+      <div class="field-hint">Annual cost per employee incl. benefits &amp; overhead</div>
+    </div>
+
+    <div class="field">
+      <label>Number of managers / leaders</label>
+      <div class="input-wrap">
+        <input type="number" id="mgrs" value="75" min="0" oninput="calc()">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Annual voluntary turnover rate</label>
+      <div class="input-wrap has-sfx">
+        <input type="number" id="turnover" value="14" min="0" max="100" oninput="calc()">
+        <span class="sfx">%</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Cost to replace one employee</label>
+      <div class="input-wrap has-pfx">
+        <span class="pfx">$</span>
+        <input type="number" id="replacecost" value="42500" min="0" oninput="onReplaceCostChange()">
+      </div>
+      <div class="field-hint">Typically 50–200% of annual salary &nbsp;·&nbsp; <a href="#" id="resetReplace" class="rc-reset" onclick="resetReplaceCost();return false;" style="display:none;">Use 50% of salary</a><span id="resetReplaceAuto" class="rc-auto">Auto: 50% of salary</span></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-head"><span>All Access Pass investment</span></div>
+
+    <div class="field">
+      <label>Pass price per seat / year</label>
+      <div class="input-wrap has-pfx">
+        <span class="pfx">$</span>
+        <input type="number" id="passPrice" value="500" min="0" oninput="calc()">
+      </div>
+      <div class="field-hint">Adjust to your quoted price</div>
+    </div>
+
+    <div class="field">
+      <label>AAP seats purchased</label>
+      <div class="input-wrap">
+        <input type="number" id="seats" value="100" min="1" oninput="calc()">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Realistic value capture</label>
+      <div class="realize-wrap">
+        <input type="range" id="realize" min="25" max="100" step="25" value="50" oninput="calc()">
+        <span class="realize-pct" id="realizeOut">50%</span>
+      </div>
+      <div class="field-hint">Applied to engagement &amp; manager lift — not retention. "What % of the modeled value will actually show up in the business?"</div>
+    </div>
+
+    <div class="field" id="revenueField" style="display:none;">
+      <label>Annual revenue per employee</label>
+      <div class="input-wrap has-pfx">
+        <span class="pfx">$</span>
+        <input type="number" id="revPerEmp" value="250000" min="1" oninput="calc()">
+      </div>
+      <div class="field-hint">Used to translate capacity gains into revenue potential</div>
+    </div>
+    <div class="divider"></div>
+    <div class="section-head"><span>Business challenges to address</span></div>
+    <div class="field-hint" style="margin-bottom:12px;">Select every challenge relevant to this prospect — each maps to a specific course</div>
+
+    <div class="challenge-grid" id="challengeGrid">
+      <div class="challenge-chip selected" data-id="trust" onclick="toggleChallenge(this)">
+        <div class="cc-name">Low trust culture</div>
+        <div class="cc-tag">Speed of Trust &rarr; all levels</div>
+      </div>
+      <div class="challenge-chip" data-id="trustinspire" onclick="toggleChallenge(this)">
+        <div class="cc-name">Command &amp; control leadership</div>
+        <div class="cc-tag">Trust &amp; Inspire &rarr; leaders</div>
+      </div>
+      <div class="challenge-chip selected" data-id="leadership_senior" onclick="toggleChallenge(this)">
+        <div class="cc-name">Mid / senior leader gaps</div>
+        <div class="cc-tag">4 Essential Roles &rarr; mid–senior</div>
+      </div>
+      <div class="challenge-chip" data-id="leadership_first" onclick="toggleChallenge(this)">
+        <div class="cc-name">New / first-time managers</div>
+        <div class="cc-tag">6 Critical Practices &rarr; first-level</div>
+      </div>
+      <div class="challenge-chip" data-id="7habits" onclick="toggleChallenge(this)">
+        <div class="cc-name">Individual effectiveness &amp; engagement</div>
+        <div class="cc-tag">7 Habits &rarr; all employees</div>
+      </div>
+      <div class="challenge-chip" data-id="multipliers" onclick="toggleChallenge(this)">
+        <div class="cc-name">Under-utilized team talent</div>
+        <div class="cc-tag">Multipliers &rarr; leaders &amp; teams</div>
+      </div>
+      <div class="challenge-chip" data-id="4dx" onclick="toggleChallenge(this)">
+        <div class="cc-name">Strategy not getting executed</div>
+        <div class="cc-tag">4DX &rarr; leaders &amp; teams</div>
+      </div>
+      <div class="challenge-chip" data-id="6cp" onclick="toggleChallenge(this)">
+        <div class="cc-name">Teams lacking direction &amp; clarity</div>
+        <div class="cc-tag">6 Critical Practices &rarr; first-level</div>
+      </div>
+      <div class="challenge-chip" data-id="change" onclick="toggleChallenge(this)">
+        <div class="cc-name">Change resistance / transformation</div>
+        <div class="cc-tag">Change &rarr; all levels</div>
+      </div>
+      <div class="challenge-chip" data-id="conflict" onclick="toggleChallenge(this)">
+        <div class="cc-name">Conflict avoidance &amp; tension</div>
+        <div class="cc-tag">Navigating Difficult Convos &rarr; all</div>
+      </div>
+      <div class="challenge-chip" data-id="sales" onclick="toggleChallenge(this)">
+        <div class="cc-name">Sales win rates &amp; pipeline</div>
+        <div class="cc-tag">Helping Clients Succeed &rarr; sales</div>
+      </div>
+      <div class="challenge-chip" data-id="customer" onclick="toggleChallenge(this)">
+        <div class="cc-name">Customer loyalty &amp; NPS</div>
+        <div class="cc-tag">Leading Customer Loyalty &rarr; frontline</div>
+      </div>
+      <div class="challenge-chip" data-id="projects" onclick="toggleChallenge(this)">
+        <div class="cc-name">Project failures &amp; overruns</div>
+        <div class="cc-tag">PM for Unofficial PMs &rarr; all</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: RESULTS + COURSES -->
+  <div class="right">
+
+    <!-- ROI CALC SCREEN -->
+    <div class="screen active" id="calcScreen">
+
+      <div class="screen" id="emptyScreen" style="display:block;">
+        <div class="empty">
+          <div class="empty-icon">◎</div>
+          <p>Complete the fields on the left<br>to generate your ROI analysis</p>
+        </div>
+      </div>
+
+      <div class="screen" id="resultScreen">
+
+        <!-- Finance View toggle -->
+        <div class="finance-toggle">
+          <button class="ft-btn active" id="ftTotal"    onclick="setFinanceView('total')">Total Value</button>
+          <button class="ft-btn"        id="ftHardOnly" onclick="setFinanceView('hard')">Conservative Floor (Retention Only)</button>
+        </div>
+
+        <!-- 1. Main summary banner -->
+        <div class="summary-banner">
+          <div>
+            <div class="sb-label" id="bannerLabel">Estimated total annual value</div>
+            <div class="sb-val" id="totalVal">—</div>
+            <div class="sb-sub" id="bannerSub">Base scenario · 50% value capture applied</div>
+            <div class="sb-assumptions"><strong>Conservative assumptions:</strong> &nbsp;10% of disengaged employees improve &nbsp;·&nbsp; 1% manager-driven output lift &nbsp;·&nbsp; 10% reduction in preventable turnover</div>
+          </div>
+          <div class="sb-right">
+            <div class="sb-stat">
+              <div class="sb-stat-val" id="roiPct">—</div>
+              <div class="sb-stat-label" id="labelRoi">ROI</div>
+              <div class="sb-stat-context" id="roiContext">Retention-only floor</div>
+            </div>
+            <div class="sb-stat">
+              <div class="sb-stat-val" id="payback">—</div>
+              <div class="sb-stat-label" id="labelPayback">Payback</div>
+              <div class="sb-stat-context" id="paybackContext">Retention-only floor</div>
+            </div>
+            <div class="sb-stat">
+              <div class="sb-stat-val" id="perPerson">—</div>
+              <div class="sb-stat-label" id="labelPerSeat">Value / seat</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Hard vs Operational value split -->
+        <div class="decision-label">Decision view: &nbsp;<span>Hard savings</span> = verified · shows up in budget &nbsp;&nbsp;<span>Operational value</span> = capacity · performance leverage</div>
+        <div class="value-split">
+          <div class="vs-box hard">
+            <div class="vs-type">Hard savings — cash out avoided</div>
+            <div class="vs-name">Retention</div>
+            <div class="vs-val" id="retentionVal">—</div>
+            <div class="vs-sub">Exits avoided × replacement cost. No realization discount — these are real avoided costs.</div>
+          </div>
+          <div class="vs-box soft" id="softBox">
+            <div class="vs-type">Operational / capacity value</div>
+            <div class="vs-name">Engagement + Manager Lift</div>
+            <div class="vs-val" id="opVal">—</div>
+            <div class="vs-sub" id="opValSub">Productivity &amp; output gains after <span id="realizeLabel">50%</span> value capture applied.</div>
+          </div>
+        </div>
+
+        <!-- 3. Scenarios -->
+        <div id="scenarioHeadLabel" class="scenario-section-label">Full-model range (for reference)</div>
+        <div class="scenario-row">
+          <div class="scen-card" id="scenCardLow" onclick="selectScenario('low')">
+            <div class="scen-label">Low</div>
+            <div class="scen-val" id="scenLow">—</div>
+            <div class="scen-sub" id="scenLowSub">50% of base</div>
+          </div>
+          <div class="scen-card selected" id="scenCardBase" onclick="selectScenario('base')">
+            <div class="scen-label">Base</div>
+            <div class="scen-val" id="scenBase">—</div>
+            <div class="scen-sub" id="scenBaseSub">Current inputs</div>
+          </div>
+          <div class="scen-card" id="scenCardHigh" onclick="selectScenario('high')">
+            <div class="scen-label">High</div>
+            <div class="scen-val" id="scenHigh">—</div>
+            <div class="scen-sub" id="scenHighSub">150% of base</div>
+          </div>
+        </div>
+
+        <!-- 4. Interpretation -->
+        <div class="interp-box">
+          <div class="interp-head">What this means in your world</div>
+          <div class="interp-line" id="interp1">—</div>
+          <div class="interp-line" id="interp2">—</div>
+          <div class="interp-line" id="interp3">—</div>
+          <div class="interp-line grounded" id="interp4">—</div>
+        </div>
+
+        <div id="breakdownNote" style="display:none;font-size:0.7rem;color:var(--ink-light);font-weight:300;font-style:italic;margin-bottom:6px;">Detailed model below includes both hard savings and operational value drivers.</div>
+        <div class="breakdown-box">
+          <div class="bb-title">How the numbers are calculated — every assumption sourced</div>
+
+          <!-- Driver 1 -->
+          <div class="bb-driver">
+            <div class="bb-driver-head">
+              <span class="bb-driver-title">Driver 1 — Engagement &amp; Productivity</span>
+              <span class="bb-driver-type">Operational value</span>
+            </div>
+            <div class="bb-driver-desc">Productivity recovered by shifting disengaged employees toward engaged. Gallup 2025: only 21% of employees globally are engaged; disengagement costs ~18% of salary.</div>
+            <div class="bb-row"><span>Employees in scope</span><span class="bb-val" id="bEmp">—</span></div>
+            <div class="bb-row"><span>Annual fully-loaded payroll</span><span class="bb-val" id="bPayroll">—</span></div>
+            <div class="bb-row"><span>Not-fully-engaged employees × productivity cost <span class="source-tag">Gallup 2025: 79% not fully engaged; ~18% of salary in lost productivity</span></span><span class="bb-val" id="bEngaged">—</span></div>
+            <div class="bb-result"><span>Engagement value (10% improve × <span id="bRealizeLabel">50%</span> capture)</span><span class="bb-val" id="bEngagedVal">—</span></div>
+          </div>
+
+          <!-- Driver 2 -->
+          <div class="bb-driver">
+            <div class="bb-driver-head">
+              <span class="bb-driver-title">Driver 2 — Voluntary Turnover</span>
+              <span class="bb-driver-type">Hard savings — no discount applied</span>
+            </div>
+            <div class="bb-driver-desc">Real avoided costs from reducing preventable exits. Gallup 2025: 42% of exits are preventable. SHRM 2025: replacement = 50–200% of salary.</div>
+            <div class="bb-row"><span>Annual exits avoided <span class="source-tag">10% reduction applied — well below Gallup benchmark</span></span><span class="bb-val" id="bExits">—</span></div>
+            <div class="bb-result"><span>Retention savings (exits avoided × replacement cost)</span><span class="bb-val" id="bRetention">—</span></div>
+          </div>
+
+          <!-- Driver 3 -->
+          <div class="bb-driver">
+            <div class="bb-driver-head">
+              <span class="bb-driver-title">Driver 3 — Manager Effectiveness</span>
+              <span class="bb-driver-type">Operational value</span>
+            </div>
+            <div class="bb-driver-desc">Output lift from better-equipped managers. Gallup 2025: 70% of team engagement variance is attributable to the manager. Model uses only 1% team output lift.</div>
+            <div class="bb-row"><span>Manager team lift <span class="source-tag">managers × avg 7 direct reports × 1% output lift</span></span><span class="bb-val" id="bLeaderCalc">—</span></div>
+            <div class="bb-result"><span>Manager effectiveness value (<span id="bRealizeLabel2">50%</span> capture)</span><span class="bb-val" id="bLeader">—</span></div>
+          </div>
+
+          <!-- Summary -->
+          <div class="bb-summary">
+            <div class="bb-summary-row"><span>All Access Pass investment (total)</span><span class="bb-val" id="bInvest">—</span></div>
+            <div class="bb-summary-row net"><span>Net annual value</span><span class="bb-val" id="bNet">—</span></div>
+          </div>
+        </div>
+
+        <div class="courses-section" id="courseRecsSection">
+          <div class="cs-header">Recommended courses for selected challenges</div>
+          <div class="course-cards" id="courseRecs"></div>
+        </div>
+
+        <div class="assumption">
+          <strong>Sources &amp; assumptions:</strong> Engagement: Gallup State of the Global Workplace 2025 — only 21% of employees globally are engaged; disengagement costs ~18% of salary in lost productivity; 70% of team engagement variance is attributable to the manager. This model claims only 10% of disengaged employees improve. Retention: Gallup 2025 found 42% of exits are preventable; we use a conservative 10% reduction. Replacement cost: SHRM 2025 — 50–200% of annual salary (model defaults to 50%). Manager effectiveness: Gallup 2025 links manager engagement directly to $438B in lost global productivity; model uses only 1% team output lift across avg team of 7. All assumptions are intentionally conservative — actual outcomes with sustained behavior change typically exceed these estimates.
+        </div>
+
+        <div class="cta-row">
+          <button class="btn btn-primary" id="copyBtn" onclick="copyResults()">&#9112; &nbsp;Copy Results to Clipboard</button>
+          <button class="btn btn-secondary" onclick="window.print()">Print</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COURSE LIBRARY SCREEN -->
+    <div class="screen" id="coursesScreen">
+      <div class="section-head" style="margin-bottom:1.2rem;"><span>FranklinCovey All Access Pass® — Course Library</span></div>
+      <div class="course-list" id="courseList"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast">Results copied to clipboard ✓</div>
+
+<script>
+// ── COURSE DATA ─────────────────────────────────────────────────────────────
+const COURSES = [
+  {
+    id:'trust',
+    name:'Leading at the Speed of Trust®',
+    tag:'trust',
+    tagLabel:'Trust',
+    desc:'Teaches leaders that trust is a tangible, measurable performance multiplier. When trust is low, speed decreases and cost increases — these are "trust taxes." This course helps leaders convert trust taxes into trust dividends, propelling their teams further, faster.',
+    outcomes:['Converts low-trust tax into high-trust dividend','Accelerates speed of collaboration & decision-making','Measurable culture shift toward high trust'],
+    challenge:'trust'
+  },
+  {
+    id:'multipliers',
+    name:'Multipliers®: How the Best Leaders Ignite Everyone\'s Intelligence',
+    tag:'leadership',
+    tagLabel:'Leadership',
+    desc:'Based on Liz Wiseman\'s research: some leaders (Multipliers) amplify the intelligence around them and get 2x the capability. Others (Diminishers) shut it down. Leaders learn to stop being accidental diminishers and start unlocking full team potential.',
+    outcomes:['Doubles effective output from existing talent','Drives innovation, energy, and growth','Reduces dependency on leader bottlenecks'],
+    challenge:'multipliers'
+  },
+  {
+    id:'sixcp',
+    name:'6 Critical Practices for Leading a Team®',
+    tag:'leadership',
+    tagLabel:'Leadership',
+    desc:'Equips first-level leaders with the mindset, skillset, and toolset to successfully transition from individual contributor to leading others. Covers the six practices most predictive of frontline leader success.',
+    outcomes:['Reduces costly new-leader failure rates','Accelerates frontline leadership capability','Closes the "do to lead" transition gap'],
+    challenge:'leadership'
+  },
+  {
+    id:'4erl',
+    name:'The 4 Essential Roles of Leadership®',
+    tag:'leadership',
+    tagLabel:'Leadership',
+    desc:'A comprehensive framework built on what organizations need from leaders now and in the future: Inspire Trust, Create Vision, Execute Strategy, Coach Potential. Develops who a leader IS, not just what a leader does.',
+    outcomes:['Leaders who think big and adapt quickly','Vision that people actually follow','Coaches who raise team performance'],
+    challenge:'leadership'
+  },
+  {
+    id:'4dx',
+    name:'The 4 Disciplines of Execution® (4DX®)',
+    tag:'execution',
+    tagLabel:'Execution',
+    desc:'A simple, repeatable, proven formula for executing on your most important strategic priorities despite the whirlwind of daily operations. Focus on WIGs (Wildly Important Goals), lead measures, scoreboards, and WIG sessions.',
+    outcomes:['Closes the strategy-execution gap','Creates a culture of accountability & cadence','Delivers measurable breakthrough results'],
+    challenge:'execution'
+  },
+  {
+    id:'hcs',
+    name:'Helping Clients Succeed®: Strikingly Different Selling',
+    tag:'sales',
+    tagLabel:'Sales',
+    desc:'Redefines selling as helping. Equips sales professionals to differentiate based on what matters most to the customer, become trusted advisors, and consistently deliver predictable sales results — not just one-off wins.',
+    outcomes:['Higher win rates through differentiation','Shorter sales cycles via trusted advisor status','Predictable, repeatable pipeline results'],
+    challenge:'sales'
+  },
+  {
+    id:'7habits',
+    name:'The 7 Habits of Highly Effective People®',
+    tag:'individual',
+    tagLabel:'Individual',
+    desc:'Based on Stephen R. Covey\'s #1 bestselling book. In an era of advanced AI, human skills are more critical than ever. Builds emotional intelligence, proactive problem-solving, high-trust relationships, and self-leadership across every level of the organization.',
+    outcomes:['Greater individual productivity & focus','Stronger interpersonal relationships & influence','Organization-wide common language for effectiveness'],
+    challenge:'turnover'
+  },
+  {
+    id:'change',
+    name:'Change: How to Turn Uncertainty Into Opportunity™',
+    tag:'execution',
+    tagLabel:'Execution',
+    desc:'Equips employees at all levels to accelerate and optimize through change by shifting from resistance to opportunity. Most useful for organizations navigating transformation, restructuring, or rapid market shifts.',
+    outcomes:['Faster change adoption at every level','Reduced resistance and disengagement','Leaders and teams who thrive through uncertainty'],
+    challenge:'change'
+  },
+  {
+    id:'trustinspire',
+    name:'Trust & Inspire™',
+    tag:'trust',
+    tagLabel:'Trust',
+    desc:'The "Command & Control" style prevalent in 92% of organizations doesn\'t create the commitment or performance needed today. Trust & Inspire equips leaders with a modern, human-centered approach — modeling, trusting, and inspiring — that gets phenomenal results while growing people.',
+    outcomes:['Shifts culture from compliance to commitment','Releases — rather than contains — team potential','Higher engagement, retention, and performance'],
+    challenge:'turnover'
+  },
+  {
+    id:'navdifficult',
+    name:'Navigating Difficult Conversations: Turn Tension Into Progress™',
+    tag:'individual',
+    tagLabel:'Individual',
+    desc:'Most people avoid difficult conversations, leading to unresolved issues, strained relationships, and eroded trust. This course shifts mindset from avoidance to progress — giving learners tools to manage emotional tension and stay in collaborative dialogue.',
+    outcomes:['Resolves issues that block team performance','Builds trust and respect across relationships','Replaces avoidance with productive forward movement'],
+    challenge:'conflict'
+  },
+  {
+    id:'pm',
+    name:'Project Management for the Unofficial Project Manager™',
+    tag:'execution',
+    tagLabel:'Execution',
+    desc:'Most projects fail not from lack of process — but from lack of the right mindset and people skills. This course blends agile and waterfall best practices to equip non-PMs to lead high-value projects, engage stakeholders, and deliver results.',
+    outcomes:['Reduces costly project failures and overruns','Engages cross-functional teams without formal authority','PMI-recognized; contributes to PDU credits'],
+    challenge:'projects'
+  },
+  {
+    id:'lcl',
+    name:'Leading Customer Loyalty®',
+    tag:'sales',
+    tagLabel:'Sales',
+    desc:'Over 70% of a great customer experience comes from the behavior of frontline employees. This course teaches frontline managers to model, teach, and reinforce empathy, responsibility, and generosity — turning average employees into loyalty drivers. FranklinCovey clients frequently see 5–10X ROI within 2–3 years.',
+    outcomes:['5–10% more delighted customers in 2–3 years','Bottom-up loyalty approach that actually sticks','Frontline managers as customer experience multipliers'],
+    challenge:'customer'
+  }
+];
+
+const TAG_COLORS = {
+  trust:'tag-trust',
+  leadership:'tag-leadership',
+  execution:'tag-execution',
+  sales:'tag-sales',
+  individual:'tag-individual'
+};
+
+const CHALLENGE_COURSES = {
+  trust:['trust'],
+  trustinspire:['trustinspire'],
+  leadership_senior:['4erl'],
+  leadership_first:['sixcp'],
+  '7habits':['7habits'],
+  multipliers:['multipliers'],
+  '4dx':['4dx'],
+  '6cp':['sixcp'],
+  change:['change'],
+  conflict:['navdifficult'],
+  sales:['hcs'],
+  customer:['lcl'],
+  projects:['pm']
+};
+
+// ── TABS ─────────────────────────────────────────────────────────────────────
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if(tab==='calc'){
+    document.getElementById('calcScreen').classList.add('active');
+    document.getElementById('coursesScreen').classList.remove('active');
+  } else {
+    document.getElementById('calcScreen').classList.remove('active');
+    document.getElementById('coursesScreen').classList.add('active');
+    renderCourseList();
+  }
+}
+
+// ── CHALLENGES ───────────────────────────────────────────────────────────────
+function toggleChallenge(el) {
+  el.classList.toggle('selected');
+  calc();
+}
+function selectedChallenges() {
+  return [...document.querySelectorAll('.challenge-chip.selected')].map(c=>c.dataset.id);
+}
+
+// ── FORMATTING ───────────────────────────────────────────────────────────────
+function fmt(n) {
+  if(n>=1000000) return '$'+(n/1000000).toFixed(1)+'M';
+  if(n>=1000) return '$'+Math.round(n/1000).toLocaleString()+'K';
+  return '$'+Math.round(n).toLocaleString();
+}
+function fmtFull(n) { return '$'+Math.round(n).toLocaleString(); }
+
+// ── REPLACEMENT COST: OVERRIDE TRACKING ──────────────────────────────────────
+let replaceCostManualOverride = false;
+
+function onSalaryChange() {
+  if (!replaceCostManualOverride) {
+    const salary = parseFloat(document.getElementById('salary').value) || 0;
+    const rcEl = document.getElementById('replacecost');
+    if (rcEl) rcEl.value = Math.round(salary * 0.50);
+  }
+  calc();
+}
+
+function onReplaceCostChange() {
+  replaceCostManualOverride = true;
+  const resetLink = document.getElementById('resetReplace');
+  const autoLabel = document.getElementById('resetReplaceAuto');
+  if (resetLink)  resetLink.style.display  = 'inline';
+  if (autoLabel)  autoLabel.style.display  = 'none';
+  calc();
+}
+
+function resetReplaceCost() {
+  replaceCostManualOverride = false;
+  const salary = parseFloat(document.getElementById('salary').value) || 0;
+  const rcEl   = document.getElementById('replacecost');
+  if (rcEl) rcEl.value = Math.round(salary * 0.50);
+  const resetLink = document.getElementById('resetReplace');
+  const autoLabel = document.getElementById('resetReplaceAuto');
+  if (resetLink)  resetLink.style.display  = 'none';
+  if (autoLabel)  autoLabel.style.display  = 'inline';
+  calc();
+}
+
+// ── FINANCE VIEW STATE ────────────────────────────────────────────────────────
+let financeView = 'total'; // 'total' | 'hard'
+
+// ── SCENARIO STATE ────────────────────────────────────────────────────────────
+let activeScenario = 'base'; // 'low' | 'base' | 'high'
+
+function selectScenario(s) {
+  activeScenario = s;
+  ['low','base','high'].forEach(key => {
+    const el = document.getElementById('scenCard' + key.charAt(0).toUpperCase() + key.slice(1));
+    if (el) el.classList.toggle('selected', key === s);
+  });
+  calc();
+}
+
+function setFinanceView(mode) {
+  financeView = mode;
+  const elTotal = document.getElementById('ftTotal');
+  const elHard  = document.getElementById('ftHardOnly');
+  if (elTotal)  elTotal.classList.toggle('active',  mode==='total');
+  if (elHard)   elHard.classList.toggle('active',   mode==='hard');
+  calc();
+}
+
+// ── NULL-SAFE DOM HELPERS ─────────────────────────────────────────────────────
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+function setHTML(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = value;
+}
+
+// ── MAIN CALC ────────────────────────────────────────────────────────────────
+function calc() {
+  const emp        = parseFloat(document.getElementById('emp').value)||0;
+  const salary     = parseFloat(document.getElementById('salary').value)||0;
+  const mgrs       = parseFloat(document.getElementById('mgrs').value)||0;
+  const turnover   = parseFloat(document.getElementById('turnover').value)||0;
+  const replacecost= parseFloat(document.getElementById('replacecost').value)||0;
+  const passPrice  = parseFloat(document.getElementById('passPrice').value)||0;
+  const seats      = parseFloat(document.getElementById('seats').value)||0;
+  const realize    = parseFloat(document.getElementById('realize').value)/100 || 0.5;
+  const lens       = document.getElementById('valueLens').value;
+  const revPerEmp  = parseFloat(document.getElementById('revPerEmp').value)||250000;
+
+  // Show/hide revenue field
+  document.getElementById('revenueField').style.display = (lens==='revenue') ? 'block' : 'none';
+
+  if(!emp||!salary||!passPrice||!seats){
+    document.getElementById('emptyScreen').style.display='block';
+    document.getElementById('resultScreen').style.display='none';
+    return;
+  }
+  document.getElementById('emptyScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  const challenges = selectedChallenges();
+  const investment = passPrice * seats;
+  const payroll    = emp * salary;
+
+  // ── DRIVER 1: ENGAGEMENT ─────────────────────────────────────────────────
+  const disengagedShare          = 0.79;
+  const disengagedCostRate       = 0.18;
+  const engagementImprovementRate= 0.10;
+  const engagementRaw = payroll * disengagedShare * disengagedCostRate * engagementImprovementRate;
+  const engagementVal = engagementRaw * realize;   // realization applied
+
+  // ── DRIVER 2: RETENTION (no realization — hard avoided cost) ─────────────
+  const effectiveReplaceCost  = Math.max(replacecost, salary * 0.50);
+  const annualExits           = emp * (turnover / 100);
+  const retentionImprovementRate = 0.10;
+  const exitsAvoided          = annualExits * retentionImprovementRate;
+  const retentionVal          = exitsAvoided * effectiveReplaceCost;
+
+  // ── DRIVER 3: MANAGER EFFECTIVENESS ──────────────────────────────────────
+  const avgTeamSize = 7;
+  const mgrTeamLift = 0.01;
+  const leaderRaw   = mgrs * avgTeamSize * salary * mgrTeamLift;
+  const leaderVal   = leaderRaw * realize;         // realization applied
+
+  // ── TOTALS ────────────────────────────────────────────────────────────────
+  const opVal      = engagementVal + leaderVal;
+  const grossVal   = opVal + retentionVal;
+  const netVal     = grossVal - investment;
+  const roi        = investment > 0 ? ((grossVal - investment)/investment)*100 : 0;
+  const paybackMo  = grossVal > 0 ? (investment/(grossVal/12)) : 0;
+  const perSeat    = seats > 0 ? grossVal/seats : 0;
+  const realizePct = Math.round(realize*100)+'%';
+
+  // ── SCENARIOS (applied to full gross, not just operational) ───────────────
+  const scenLow  = grossVal * 0.5;
+  const scenHigh = grossVal * 1.5;
+
+  // ── LENS-AWARE FORMATTING ─────────────────────────────────────────────────
+  // Equivalent FTEs: value / fully-loaded salary
+  const equivFTEs  = Math.round(opVal / salary);
+  // Equivalent % output lift on whole workforce
+  const outputPct  = ((opVal / payroll) * 100).toFixed(1);
+  // Revenue potential: capacity hours translated via rev/emp
+  const hoursPerYear = 2000;
+  const revenueEquiv = Math.round((opVal / salary) * revPerEmp);
+  // Manager hours freed: (leaderVal / salary) * 2000 hrs/yr
+  const mgrHoursFree = Math.round((leaderRaw * realize / salary) * hoursPerYear);
+
+  // ── FINANCE VIEW: compute displayed headline values ───────────────────────
+  const isHardOnly    = (financeView === 'hard');
+  const displayVal    = isHardOnly ? retentionVal  : grossVal;
+  const displayROI    = isHardOnly ? (investment > 0 ? ((retentionVal - investment)/investment)*100 : 0) : roi;
+  const displayPayback= isHardOnly ? (retentionVal > 0 ? (investment/(retentionVal/12)) : 0) : paybackMo;
+  const displayPerSeat= isHardOnly ? (seats > 0 ? retentionVal/seats : 0) : perSeat;
+
+  // Dim / undim the soft box
+  const softBox = document.getElementById('softBox');
+  if (softBox) softBox.classList.toggle('dimmed', isHardOnly);
+
+  // ── BANNER LABELS — dynamic by lens × view ────────────────────────────────
+  const bannerLabels = {
+    cost:    isHardOnly ? 'Hard savings — cash out avoided'               : 'Estimated annual cost savings',
+    revenue: isHardOnly ? 'Hard savings — cash out avoided'               : 'Estimated revenue capacity created',
+    output:  isHardOnly ? 'Hard savings — cash out avoided'               : 'Estimated operational capacity gained'
+  };
+  // ── SCENARIO MULTIPLIER ───────────────────────────────────────────────────
+  const scenMultipliers = { low: 0.5, base: 1.0, high: 1.5 };
+  const scenMult = scenMultipliers[activeScenario] || 1.0;
+  const scenLabels = {
+    low:  isHardOnly ? 'Conservative floor · low scenario (50%)' : 'Low scenario (50% of base)',
+    base: isHardOnly ? 'Minimum realized value based on avoided turnover only. Does not include productivity or capacity gains.' : 'Base scenario \u00b7 ' + realizePct + ' value capture applied',
+    high: isHardOnly ? 'Conservative floor · high scenario (150%)' : 'High scenario (150% of base)'
+  };
+
+  const bannerSubText = scenLabels[activeScenario];
+
+  setText('realizeOut',   realizePct);
+  setText('bannerLabel',  bannerLabels[lens]);
+  setText('bannerSub',    bannerSubText);
+
+  // Fix 2: update stat labels based on view mode
+  setText('labelRoi',     isHardOnly ? 'Floor ROI'        : 'ROI');
+  setText('labelPayback', isHardOnly ? 'Floor Payback'    : 'Payback');
+  setText('labelPerSeat', isHardOnly ? 'Floor value / seat' : 'Value / seat');
+  // Conservative floor context cues under stat labels
+  const roiCtx     = document.getElementById('roiContext');
+  const paybackCtx = document.getElementById('paybackContext');
+  if (roiCtx)     roiCtx.classList.toggle('visible',     isHardOnly);
+  if (paybackCtx) paybackCtx.classList.toggle('visible', isHardOnly);
+
+  // Main total display — scenario multiplier applied
+  const scenVal     = displayVal     * scenMult;
+  const scenROI     = investment > 0 ? ((scenVal - investment) / investment) * 100 : 0;
+  const scenPayback = scenVal > 0    ? (investment / (scenVal / 12)) : 0;
+  const scenPerSeat = seats > 0      ? scenVal / seats : 0;
+
+  setText('totalVal',  fmt(scenVal));
+  setText('roiPct',    Math.round(scenROI)+'%');
+  setText('payback',   scenPayback.toFixed(1)+' mo');
+  setText('perPerson', fmt(scenPerSeat));
+
+  // Fix 3: scenarios — show full-model range with label when hard-only, update normally otherwise
+  const scenHeadEl = document.getElementById('scenarioHeadLabel');
+  if (scenHeadEl) scenHeadEl.style.display = isHardOnly ? 'block' : 'none';
+  setText('scenLow',     fmt(scenLow));
+  setText('scenBase',    fmt(grossVal));
+  setText('scenHigh',    fmt(scenHigh));
+  setText('scenLowSub',  isHardOnly ? '50% of full model'  : '50% of base');
+  setText('scenBaseSub', isHardOnly ? 'Full-model base'    : 'Current inputs');
+  setText('scenHighSub', isHardOnly ? '150% of full model' : '150% of base');
+
+  // Fix 5: show breakdown note only in hard-only mode
+  const bNoteEl = document.getElementById('breakdownNote');
+  if (bNoteEl) bNoteEl.style.display = isHardOnly ? 'block' : 'none';
+
+  // Hard / soft split
+  setText('retentionVal', fmt(retentionVal));
+  setText('opVal',        fmt(opVal));
+  setText('realizeLabel', realizePct);
+  setHTML('opValSub',     'Productivity &amp; output gains after <strong>'+realizePct+'</strong> value capture applied.');
+
+  // Interpretation lines — vary by lens
+  const hiresAvoided = Math.round(exitsAvoided);
+  if(lens==='cost'){
+    setHTML('interp1', 'Equivalent to <strong>avoiding '+hiresAvoided+' replacement hire'+(hiresAvoided!==1?'s':'')+' this year</strong> in hard recruiting &amp; onboarding cost.');
+    setHTML('interp2', 'Equivalent to <strong>'+equivFTEs+' additional employees worth of productive capacity</strong> — without adding headcount.');
+    setHTML('interp3', 'Frees up an estimated <strong>'+mgrHoursFree.toLocaleString()+' manager hours</strong> annually that are currently lost to disengagement and ineffective oversight.');
+  } else if(lens==='revenue'){
+    setHTML('interp1', 'Engagement and manager lift translate to approximately <strong>'+fmt(revenueEquiv)+' in potential revenue output</strong> at your revenue-per-employee rate.');
+    setHTML('interp2', 'Equivalent to adding <strong>'+equivFTEs+' quota-carrying employees</strong> worth of productive capacity to your existing team.');
+    setHTML('interp3', 'Avoiding <strong>'+hiresAvoided+' exits</strong> this year eliminates '+fmt(retentionVal)+' in replacement cost that would otherwise hit this year\'s P&L.');
+  } else {
+    setHTML('interp1', 'Equivalent to a <strong>'+outputPct+'% increase in effective throughput</strong> from your existing workforce — no new hires.');
+    setHTML('interp2', 'Like gaining <strong>'+equivFTEs+' additional full-capacity employees</strong> without growing headcount or payroll.');
+    setHTML('interp3', 'Retention savings of <strong>'+fmt(retentionVal)+'</strong> represent real cash — avoiding '+hiresAvoided+' backfill hire'+(hiresAvoided!==1?'s':'')+' at '+fmt(effectiveReplaceCost)+' each.');
+  }
+
+  // interp4 — grounded in their actual numbers
+  let interp4Text = '';
+  if (turnover > 0 && annualExits >= 1) {
+    interp4Text = 'You\'re currently losing ~'+Math.round(annualExits)+' employees per year. Even modest improvement (10%) prevents ~'+hiresAvoided+' exit'+(hiresAvoided!==1?'s':'')+' — before any productivity gains are considered.';
+  } else if (mgrs > 0) {
+    const mgrReach = mgrs * avgTeamSize;
+    interp4Text = 'With '+mgrs+' managers and ~'+avgTeamSize+' reports each, even a 1% output lift impacts ~'+mgrReach+' employees.';
+  }
+  if (interp4Text) setHTML('interp4', interp4Text);
+  else setText('interp4', '');
+
+  // Breakdown
+  const bRealPct = realizePct;
+  setText('bRealizeLabel',  bRealPct);
+  setText('bRealizeLabel2', bRealPct);
+  setText('bEmp',        emp.toLocaleString());
+  setText('bPayroll',    fmtFull(payroll));
+  setText('bEngaged',    Math.round(emp*disengagedShare).toLocaleString()+' employees (Gallup 2025: 79% not fully engaged)');
+  setText('bEngagedVal', fmtFull(engagementVal)+'  (18% cost × 10% improvement × '+realizePct+' capture)');
+  setText('bExits',      exitsAvoided.toFixed(1)+' exits avoided  (10% of '+annualExits.toFixed(0)+' annual exits)');
+  setText('bRetention',  fmtFull(retentionVal)+'  ('+fmtFull(effectiveReplaceCost)+' replacement cost × exits avoided)');
+  setText('bLeaderCalc', mgrs+' managers × '+avgTeamSize+' avg team × 1% lift × '+realizePct+' capture (Gallup 2025: managers drive 70% of team engagement)');
+  setText('bLeader',     fmtFull(leaderVal));
+  setText('bInvest',     fmtFull(investment));
+  setText('bNet',        fmtFull(netVal));
+
+  renderCourseRecs(challenges);
+
+  window._calcResults = {emp,salary,mgrs,turnover,replacecost:effectiveReplaceCost,passPrice,seats,
+    investment,payroll,engagementVal,retentionVal,leaderVal,opVal,grossVal,netVal,roi,paybackMo,perSeat,
+    exitsAvoided,annualExits,challenges,realize,realizePct,lens,equivFTEs,outputPct,revenueEquiv,
+    mgrHoursFree,hiresAvoided,scenLow,scenHigh,disengagedShare,retentionImprovementRate,avgTeamSize,
+    financeView,displayVal,displayROI,displayPayback,displayPerSeat,isHardOnly,
+    activeScenario,scenMult,scenVal,scenROI,scenPayback,scenPerSeat};
+}
+
+// ── COURSE RECS ───────────────────────────────────────────────────────────────
+function renderCourseRecs(challenges) {
+  const container = document.getElementById('courseRecs');
+  let recommended = [];
+  challenges.forEach(ch => {
+    (CHALLENGE_COURSES[ch]||[]).forEach(cid => {
+      if(!recommended.includes(cid)) recommended.push(cid);
+    });
+  });
+  if(recommended.length===0){
+    container.innerHTML='<div style="font-size:0.78rem;color:var(--ink-light);padding:8px 0;font-weight:300;">Select challenges on the left to see recommended courses.</div>';
+    return;
+  }
+  container.innerHTML = recommended.slice(0,6).map(cid=>{
+    const c = COURSES.find(x=>x.id===cid);
+    if(!c) return '';
+    return `<div class="cc">
+      <div class="cc-course-name">${c.name}</div>
+      <div class="cc-course-desc">${c.desc.substring(0,120)}...</div>
+      <span class="cc-tag ${TAG_COLORS[c.tag]}">${c.tagLabel}</span>
+    </div>`;
+  }).join('');
+}
+
+// ── FULL COURSE LIST ─────────────────────────────────────────────────────────
+function renderCourseList() {
+  const container = document.getElementById('courseList');
+  container.innerHTML = COURSES.map((c,i)=>`
+    <div class="cd-card">
+      <div class="cd-header" onclick="toggleCourse(${i})">
+        <div class="cd-htitle">${c.name}</div>
+        <div class="cd-htag">
+          <span class="cc-tag ${TAG_COLORS[c.tag]}">${c.tagLabel}</span>
+          <span class="chevron" id="chev${i}">▼</span>
+        </div>
+      </div>
+      <div class="cd-body" id="cdbody${i}">
+        <p class="cd-desc">${c.desc}</p>
+        <div class="cd-outcomes">
+          ${c.outcomes.map(o=>`<span class="cd-outcome-chip">${o}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+function toggleCourse(i) {
+  const body = document.getElementById('cdbody'+i);
+  const chev = document.getElementById('chev'+i);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  chev.classList.toggle('open',!isOpen);
+}
+
+// ── COPY ─────────────────────────────────────────────────────────────────────
+function copyResults() {
+  const r = window._calcResults;
+  if(!r) return;
+  const courseNames = r.challenges.flatMap(ch=>(CHALLENGE_COURSES[ch]||[]).map(id=>{
+    const c=COURSES.find(x=>x.id===id); return c?c.name:null;
+  })).filter(Boolean);
+  const uniqueCourses = [...new Set(courseNames)];
+
+  const isHard = r.isHardOnly;
+  const scenLabel = r.activeScenario === 'low' ? 'Low (50% of base)' : r.activeScenario === 'high' ? 'High (150% of base)' : 'Base';
+  const viewLabel = isHard
+    ? 'CONSERVATIVE FLOOR VIEW (Retention Only) — ' + scenLabel + ' scenario'
+    : 'TOTAL VALUE VIEW — ' + scenLabel + ' scenario';
+  const roiLabel   = isHard ? 'Floor ROI'         : 'ROI';
+  const pbLabel    = isHard ? 'Floor Payback'      : 'Payback Period';
+  const seatLabel  = isHard ? 'Floor Value / Seat' : 'Value per Seat';
+  const mainVal    = fmtFull(r.scenVal);
+  const mainNet    = fmtFull(r.scenVal - r.investment);
+  const mainROI    = Math.round(r.scenROI)+'%';
+  const mainPB     = r.scenPayback.toFixed(1)+' months';
+  const mainSeat   = fmt(r.scenPerSeat);
+
+  const hardOnlyNote = isHard
+    ? `\nNOTE: Conservative Floor view — shows retention savings only.
+  Engagement value (${fmtFull(r.engagementVal)}) and manager lift (${fmtFull(r.leaderVal)}) are excluded from headline.
+  Full-model total value: ${fmt(r.grossVal)}\n`
+    : '';
+
+  const text = `FRANKLINCOVEY ALL ACCESS PASS - ROI ANALYSIS
+================================================
+${viewLabel}
+${hardOnlyNote}
+Organization Profile:
+  Employees in scope:        ${r.emp.toLocaleString()}
+  Avg. fully-loaded salary:  ${fmtFull(r.salary)}
+  Managers / leaders:        ${r.mgrs}
+  Voluntary turnover rate:   ${r.turnover}%
+  Cost to replace employee:  ${fmtFull(r.replacecost)}
+
+All Access Pass Investment:
+  Price per seat / year:  ${fmtFull(r.passPrice)}
+  Seats:                  ${r.seats}
+  Total investment:       ${fmtFull(r.investment)}
+
+RESULTS (${isHard ? 'Conservative Floor' : 'Total Value'})
+-------
+  Headline Value:   ${mainVal}
+  Net Value:        ${mainNet}
+  ${roiLabel}:      ${mainROI}
+  ${pbLabel}:       ${mainPB}
+  ${seatLabel}:     ${mainSeat}
+
+VALUE BREAKDOWN (sourced assumptions)
+--------------------------------------
+  Hard Savings — Retention:  ${fmtFull(r.retentionVal)}
+    ${r.exitsAvoided.toFixed(1)} exits avoided (10% of ${r.annualExits.toFixed(0)} annual exits).
+    SHRM 2025: replacement cost = 50-200% of salary. Using ${fmtFull(r.replacecost)}.
+    Gallup 2025: 42% of exits preventable. Model uses conservative 10%.
+
+  Engagement Value (${r.realizePct} capture):  ${fmtFull(r.engagementVal)}
+    Gallup 2025: only 21% globally engaged; disengagement costs ~18% of salary.
+    Model claims only 10% of disengaged employees improve.
+
+  Manager Effectiveness (${r.realizePct} capture):  ${fmtFull(r.leaderVal)}
+    ${r.mgrs} managers x ${r.avgTeamSize} avg direct reports x 1% output lift.
+    Gallup 2025: 70% of team engagement variance attributable to the manager.
+
+All assumptions intentionally conservative.
+Sources: Gallup State of the Global Workplace 2025, SHRM 2025.
+
+RECOMMENDED COURSES
+-------------------
+${uniqueCourses.map(n=>'  - '+n).join('\n')}
+
+FranklinCovey All Access Pass | franklincovey.com`;
+
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.classList.add('copied');
+    btn.textContent = 'Copied!';
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(()=>{
+      btn.classList.remove('copied');
+      btn.innerHTML = '&#9112; &nbsp;Copy Results to Clipboard';
+      toast.classList.remove('show');
+    },2500);
+  });
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+(function() {
+  const salary = parseFloat(document.getElementById('salary').value) || 0;
+  const rcEl   = document.getElementById('replacecost');
+  if (rcEl && salary > 0) rcEl.value = Math.round(salary * 0.50);
+})();
+calc();
+</script>
+</body>
+</html>
