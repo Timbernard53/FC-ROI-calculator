@@ -228,6 +228,29 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
 .bb-row.bb-subtotal span:first-child{font-weight:500;color:var(--ink);}
 .bb-row.total .bb-val{color:var(--green);font-family:'Playfair Display',serif;font-size:1rem;}
 
+/* ── WORKFORCE MIX ───────────────────────────── */
+.mix-toggle{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none;padding:6px 0 4px;}
+.mix-toggle-label{font-size:0.68rem;font-weight:600;color:var(--navy-light);letter-spacing:0.02em;}
+.mix-toggle-arrow{font-size:0.58rem;color:var(--navy-light);transition:transform .2s;display:inline-block;line-height:1;}
+.mix-toggle-arrow.open{transform:rotate(90deg);}
+.mix-body{display:none;padding-top:8px;}
+.mix-body.open{display:block;}
+.mix-header{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:3px;}
+.mix-col-head{font-size:0.58rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-light);}
+.mix-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;align-items:center;margin-bottom:5px;}
+.mix-row-label{font-size:0.68rem;font-weight:600;color:var(--ink-mid);}
+.mix-input{width:100%;padding:7px 10px;font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--ink);background:var(--cream);border:1px solid var(--rule);border-radius:var(--radius);outline:none;transition:border-color .15s;-moz-appearance:textfield;appearance:textfield;}
+.mix-input::-webkit-outer-spin-button,.mix-input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.mix-input:focus{border-color:var(--navy-light);background:#fff;}
+.mix-pfx-wrap{position:relative;display:flex;align-items:center;}
+.mix-pfx-sym{position:absolute;left:7px;font-size:0.78rem;color:var(--ink-light);pointer-events:none;z-index:1;}
+.mix-pfx-wrap .mix-input{padding-left:18px;}
+.mix-status{font-size:0.64rem;font-weight:400;margin-top:5px;padding:4px 8px;border-radius:var(--radius);line-height:1.4;}
+.mix-status.ok{background:var(--green-light);color:var(--green);}
+.mix-status.warn{background:var(--gold-light);color:#7a5200;}
+.salary-blended-note{font-size:0.65rem;color:var(--green);font-weight:500;margin-top:3px;display:none;}
+input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
+
 /* ── ASSUMPTION NOTE ─────────────────────────── */
 .assumption{background:var(--gold-light);border:1px solid rgba(196,154,60,0.18);border-radius:var(--radius);padding:9px 13px;margin-bottom:1.1rem;font-size:0.68rem;color:#5c3a1a;font-weight:300;line-height:1.6;}
 .assumption strong{font-weight:600;color:var(--gold);}
@@ -381,12 +404,44 @@ select{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:u
     </div>
 
     <div class="field">
-      <label>Average fully-loaded salary</label>
+      <label id="salaryLabel">Average fully-loaded salary</label>
       <div class="input-wrap has-pfx">
         <span class="pfx">$</span>
         <input type="number" id="salary" value="85000" min="1" oninput="onSalaryChange()">
       </div>
+      <div class="salary-blended-note" id="salaryBlendedNote">Calculated from workforce mix</div>
       <div class="field-hint">Annual cost per employee incl. benefits &amp; overhead</div>
+    </div>
+
+    <!-- Workforce Mix (optional) -->
+    <div class="field" style="margin-bottom:1rem;">
+      <div class="mix-toggle" onclick="toggleMixPanel()">
+        <span class="mix-toggle-arrow" id="mixArrow">&#9654;</span>
+        <span class="mix-toggle-label">Refine Workforce Mix (Optional)</span>
+      </div>
+      <div class="mix-body" id="mixBody">
+        <div class="mix-header">
+          <span class="mix-col-head">Role group</span>
+          <span class="mix-col-head">% of workforce</span>
+          <span class="mix-col-head">Avg salary</span>
+        </div>
+        <div class="mix-row">
+          <span class="mix-row-label">Leaders</span>
+          <input class="mix-input" type="number" id="mixLeaderPct" placeholder="e.g. 10" min="0" max="100" oninput="calcWorkforceMix()">
+          <div class="mix-pfx-wrap"><span class="mix-pfx-sym">$</span><input class="mix-input" type="number" id="mixLeaderSal" placeholder="e.g. 160000" min="0" oninput="calcWorkforceMix()"></div>
+        </div>
+        <div class="mix-row">
+          <span class="mix-row-label">Managers</span>
+          <input class="mix-input" type="number" id="mixMgrPct" placeholder="e.g. 25" min="0" max="100" oninput="calcWorkforceMix()">
+          <div class="mix-pfx-wrap"><span class="mix-pfx-sym">$</span><input class="mix-input" type="number" id="mixMgrSal" placeholder="e.g. 110000" min="0" oninput="calcWorkforceMix()"></div>
+        </div>
+        <div class="mix-row">
+          <span class="mix-row-label">Individual Contributors</span>
+          <input class="mix-input" type="number" id="mixIcPct" placeholder="e.g. 65" min="0" max="100" oninput="calcWorkforceMix()">
+          <div class="mix-pfx-wrap"><span class="mix-pfx-sym">$</span><input class="mix-input" type="number" id="mixIcSal" placeholder="e.g. 75000" min="0" oninput="calcWorkforceMix()"></div>
+        </div>
+        <div class="mix-status warn" id="mixStatus" style="display:none;"></div>
+      </div>
     </div>
 
     <div class="field">
@@ -906,10 +961,101 @@ function fmt(n) {
 }
 function fmtFull(n) { return '$'+Math.round(n).toLocaleString(); }
 
+// ── WORKFORCE MIX ────────────────────────────────────────────────────────────
+let workforceMixActive = false;
+let manualSalary = 85000; // mirrors the salary field default; updated on every manual edit
+
+function toggleMixPanel() {
+  const body  = document.getElementById('mixBody');
+  const arrow = document.getElementById('mixArrow');
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (arrow) arrow.classList.toggle('open', !isOpen);
+  if (isOpen) {
+    // closing — clear mix and restore manual mode
+    clearWorkforceMix();
+  }
+}
+
+function calcWorkforceMix() {
+  const lPct = parseFloat(document.getElementById('mixLeaderPct').value);
+  const mPct = parseFloat(document.getElementById('mixMgrPct').value);
+  const iPct = parseFloat(document.getElementById('mixIcPct').value);
+  const lSal = parseFloat(document.getElementById('mixLeaderSal').value);
+  const mSal = parseFloat(document.getElementById('mixMgrSal').value);
+  const iSal = parseFloat(document.getElementById('mixIcSal').value);
+
+  const statusEl = document.getElementById('mixStatus');
+  const salEl    = document.getElementById('salary');
+  const noteEl   = document.getElementById('salaryBlendedNote');
+  const lblEl    = document.getElementById('salaryLabel');
+
+  const allFilled = [lPct, mPct, iPct, lSal, mSal, iSal].every(v => !isNaN(v) && v > 0);
+
+  if (!allFilled) {
+    clearWorkforceMix();
+    if (statusEl) { statusEl.style.display = 'none'; }
+    return;
+  }
+
+  const total = lPct + mPct + iPct;
+
+  if (Math.round(total) !== 100) {
+    clearWorkforceMix();
+    if (statusEl) {
+      statusEl.className = 'mix-status warn';
+      statusEl.textContent = 'Percentages total ' + total.toFixed(0) + '% — must equal 100% to apply blended salary.';
+      statusEl.style.display = 'block';
+    }
+    return;
+  }
+
+  // Valid — compute blended salary
+  const blended = Math.round((lPct / 100) * lSal + (mPct / 100) * mSal + (iPct / 100) * iSal);
+
+  workforceMixActive = true;
+  if (salEl)  { salEl.value = blended; salEl.readOnly = true; }
+  if (lblEl)  { lblEl.textContent = 'Blended average fully-loaded salary'; }
+  if (noteEl) { noteEl.style.display = 'block'; }
+  if (statusEl) {
+    statusEl.className = 'mix-status ok';
+    statusEl.textContent = 'Blended salary: $' + blended.toLocaleString() + ' (totals 100%)';
+    statusEl.style.display = 'block';
+  }
+
+  // Sync replacement cost if not manually overridden
+  if (!replaceCostManualOverride) {
+    const rcEl = document.getElementById('replacecost');
+    if (rcEl) rcEl.value = Math.round(blended * 0.50);
+  }
+  calc();
+}
+
+function clearWorkforceMix() {
+  workforceMixActive = false;
+  const salEl  = document.getElementById('salary');
+  const noteEl = document.getElementById('salaryBlendedNote');
+  const lblEl  = document.getElementById('salaryLabel');
+  if (salEl)  { salEl.value = manualSalary; salEl.readOnly = false; }
+  if (noteEl) { noteEl.style.display = 'none'; }
+  if (lblEl)  { lblEl.textContent = 'Average fully-loaded salary'; }
+  // Restore replacement cost to match manual salary if not overridden
+  if (!replaceCostManualOverride) {
+    const rcEl = document.getElementById('replacecost');
+    if (rcEl) rcEl.value = Math.round(manualSalary * 0.50);
+  }
+  calc();
+}
+
 // ── REPLACEMENT COST: OVERRIDE TRACKING ──────────────────────────────────────
 let replaceCostManualOverride = false;
 
 function onSalaryChange() {
+  // Record manual salary whenever the user edits the field directly (mix inactive)
+  if (!workforceMixActive) {
+    manualSalary = parseFloat(document.getElementById('salary').value) || manualSalary;
+  }
   if (!replaceCostManualOverride) {
     const salary = parseFloat(document.getElementById('salary').value) || 0;
     const rcEl = document.getElementById('replacecost');
@@ -1323,6 +1469,7 @@ FranklinCovey All Access Pass | franklincovey.com`;
 // ── INIT ─────────────────────────────────────────────────────────────────────
 (function() {
   const salary = parseFloat(document.getElementById('salary').value) || 0;
+  if (salary > 0) manualSalary = salary;
   const rcEl   = document.getElementById('replacecost');
   if (rcEl && salary > 0) rcEl.value = Math.round(salary * 0.50);
 })();
