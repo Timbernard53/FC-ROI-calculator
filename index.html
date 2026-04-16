@@ -708,13 +708,19 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
       <div class="screen" id="resultScreen">
 
         <!-- Finance View toggle -->
+        <!-- Enhancement: Conservative Floor relabeled as Minimum Expected Return for CFO credibility -->
         <div class="finance-toggle">
           <button class="ft-btn active" id="ftTotal"    onclick="setFinanceView('total')">Total Value</button>
-          <button class="ft-btn"        id="ftHardOnly" onclick="setFinanceView('hard')">Conservative Floor (Retention Only)</button>
+          <button class="ft-btn"        id="ftHardOnly" onclick="setFinanceView('hard')">Conservative Floor — Minimum Expected Return</button>
         </div>
+        <!-- Enhancement: Helper text shown only in Conservative Floor mode -->
+        <div id="floorHelper" style="display:none;font-size:0.63rem;color:var(--ink-light);font-weight:300;font-style:italic;margin-top:-4px;margin-bottom:8px;line-height:1.5;padding:5px 8px;background:var(--green-light);border-left:2px solid var(--green);border-radius:0 var(--radius) var(--radius) 0;">Direct, budget-visible cost avoidance only — no productivity estimates included. This is the lowest defensible floor for the business case.</div>
 
         <!-- Boundary statement -->
-        <div style="font-size:0.65rem;color:var(--ink-light);font-weight:300;font-style:italic;margin-bottom:8px;line-height:1.5;">This model estimates economic exposure and potential impact. It is not a financial forecast or guarantee of results.</div>
+        <div style="font-size:0.65rem;color:var(--ink-light);font-weight:300;font-style:italic;margin-bottom:6px;line-height:1.5;">This model estimates economic exposure and potential impact. It is not a financial forecast or guarantee of results.</div>
+
+        <!-- Enhancement: Cost of inaction callout -->
+        <div style="font-size:0.67rem;color:var(--ink-mid);font-weight:400;line-height:1.55;margin-bottom:10px;padding:7px 10px;background:var(--gold-light);border-left:2px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;">This model quantifies the economic exposure associated with turnover and performance gaps, helping evaluate the cost of inaction.</div>
 
         <!-- 1. Main summary banner -->
         <div class="summary-banner">
@@ -790,6 +796,8 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
           <div class="interp-line grounded" id="interp4">—</div>
         </div>
 
+        <!-- Enhancement: Finance transparency header above breakdown -->
+        <div style="font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy-light);margin-bottom:5px;">Finance Transparency: All assumptions are conservative and editable.</div>
         <div id="breakdownNote" style="display:none;font-size:0.7rem;color:var(--ink-light);font-weight:300;font-style:italic;margin-bottom:6px;">Detailed model below includes both hard savings and operational value drivers.</div>
         <div class="breakdown-box">
           <div class="bb-title">How the numbers are calculated — every assumption sourced</div>
@@ -847,10 +855,15 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
           <strong>Sources &amp; assumptions:</strong> Engagement: Gallup State of the Global Workplace 2025 — only 21% of employees globally are engaged; disengagement costs ~18% of salary in lost productivity; 70% of team engagement variance is attributable to the manager. This model assumes only 7% of disengaged employees improve — below the Gallup benchmark. Retention: Gallup 2025 found 42% of exits are preventable; we use a conservative 10% reduction. Replacement cost: SHRM 2025 — 50–200% of annual salary (model defaults to 50%). Manager effectiveness: Gallup 2025 links manager engagement directly to $438B in lost global productivity; model uses only 1% team output lift across avg team of 7. Operational drivers (engagement + manager effectiveness) are adjusted by 0.7× to reduce potential overlap in affected employee populations. Retention savings are kept separate and unadjusted as direct cost avoidance. &nbsp;Even partial adoption or uneven execution can create measurable value; this model does not assume perfect rollout. &nbsp;Hard savings such as retention typically appear earlier, while productivity and manager-effectiveness gains build over time. &nbsp;Delaying action preserves current cost exposure without reducing underlying risk.
         </div>
 
+        <!-- Enhancement: Champion messaging note -->
         <div class="cta-row no-print">
           <button class="btn btn-primary" id="copyBtn" onclick="copyResults()">&#9112; &nbsp;Copy Results to Clipboard</button>
-          <button class="btn btn-secondary" onclick="printReport()">&#8681; &nbsp;Download as PDF</button>
+          <button class="btn btn-secondary" onclick="printReport()">&#8681; &nbsp;Print / Save as PDF</button>
         </div>
+        <!-- Enhancement: Champion support note -->
+        <div class="no-print" style="font-size:0.6rem;color:var(--ink-light);font-weight:300;font-style:italic;margin-top:8px;text-align:center;letter-spacing:0.01em;">Designed to support internal business cases for HR and Finance stakeholders.</div>
+        <!-- Enhancement: Print/PDF helper text -->
+        <div class="no-print" style="font-size:0.62rem;color:var(--ink-light);font-weight:300;margin-top:6px;text-align:center;">Opens your browser print dialog. Choose <strong style="font-weight:500;color:var(--ink-mid);">"Save as PDF"</strong> to export a file.</div>
 
       </div>
     </div>
@@ -1238,6 +1251,9 @@ function setFinanceView(mode) {
   const elHard  = document.getElementById('ftHardOnly');
   if (elTotal)  elTotal.classList.toggle('active',  mode==='total');
   if (elHard)   elHard.classList.toggle('active',   mode==='hard');
+  // Enhancement: show/hide Conservative Floor helper text
+  const floorHelper = document.getElementById('floorHelper');
+  if (floorHelper) floorHelper.style.display = mode === 'hard' ? 'block' : 'none';
   calc();
 }
 
@@ -1624,7 +1640,82 @@ function printReport() {
   const opValDisplay = fmt(r.opVal * r.scenMult);
   const retDisplay   = fmt(r.retentionVal * r.scenMult);
 
-  const html = `
+  // Enhancement: Executive Summary cover page (page 0 — before the main summary)
+  const conservativeFloorVal = fmt(r.retentionVal);
+  const execSummary = `
+    <!-- Enhancement: Executive Summary Cover Page -->
+    <div style="font-family:'Inter',sans-serif;padding:36px 40px;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;">
+      <div>
+        <div style="font-size:9pt;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#8a96a3;margin-bottom:6px;">FranklinCovey &nbsp;·&nbsp; All Access Pass®</div>
+        <div style="font-size:22pt;font-weight:700;color:#0d1b2a;letter-spacing:-0.02em;margin-bottom:4px;font-family:'Georgia',serif;">Business Case — Executive Summary</div>
+        <div style="font-size:9pt;color:#8a96a3;margin-bottom:28px;">${dateStr} &nbsp;·&nbsp; Prepared for internal evaluation by HR and Finance stakeholders</div>
+
+        <div style="font-size:7pt;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#3b6de8;border-bottom:2px solid #3b6de8;padding-bottom:4px;margin-bottom:14px;">Financial Summary</div>
+        <table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin-bottom:28px;">
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:8px 4px;color:#3a4a5c;font-weight:300;width:55%;">Total Investment</td>
+            <td style="padding:8px 4px;font-weight:700;color:#0d1b2a;text-align:right;">${fmtFull(r.investment)}</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e0d8;background:#eaf4ee;">
+            <td style="padding:8px 4px;color:#1a6b45;font-weight:600;">Conservative Financial Floor <span style="font-weight:300;font-size:8pt;">(retention-only — minimum expected return)</span></td>
+            <td style="padding:8px 4px;font-weight:700;color:#1a6b45;text-align:right;">${conservativeFloorVal}</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:8px 4px;color:#3a4a5c;font-weight:300;">Expected Annual Value <span style="font-size:8pt;">(base scenario, all drivers)</span></td>
+            <td style="padding:8px 4px;font-weight:700;color:#0d1b2a;text-align:right;">${fmt(r.grossVal)}</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:8px 4px;color:#3a4a5c;font-weight:300;">Return on Investment (ROI)</td>
+            <td style="padding:8px 4px;font-weight:700;color:#0d1b2a;text-align:right;">${Math.round(r.roi)}%</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:8px 4px;color:#3a4a5c;font-weight:300;">Payback Period</td>
+            <td style="padding:8px 4px;font-weight:700;color:#0d1b2a;text-align:right;">${r.paybackMo.toFixed(1)} months</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 4px;color:#3a4a5c;font-weight:300;">Value per Seat</td>
+            <td style="padding:8px 4px;font-weight:700;color:#0d1b2a;text-align:right;">${fmt(r.perSeat)}</td>
+          </tr>
+        </table>
+
+        <div style="font-size:7pt;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#3b6de8;border-bottom:2px solid #3b6de8;padding-bottom:4px;margin-bottom:14px;">Key Assumptions &amp; Data Sources</div>
+        <table style="width:100%;border-collapse:collapse;font-size:8.5pt;">
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:6px 4px;color:#3a4a5c;font-weight:600;width:35%;">Employees in scope</td>
+            <td style="padding:6px 4px;color:#0d1b2a;font-weight:300;">${r.emp.toLocaleString()} &nbsp;·&nbsp; Avg. salary ${fmtFull(r.salary)} &nbsp;·&nbsp; Turnover ${r.turnover}%</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:6px 4px;color:#3a4a5c;font-weight:600;">Engagement improvement</td>
+            <td style="padding:6px 4px;color:#0d1b2a;font-weight:300;">~7% of disengaged employees (conservative vs. Gallup benchmark) &nbsp;·&nbsp; 18% salary productivity cost (Gallup 2025)</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:6px 4px;color:#3a4a5c;font-weight:600;">Retention assumption</td>
+            <td style="padding:6px 4px;color:#0d1b2a;font-weight:300;">10% reduction in preventable exits (Gallup 2025: 42% preventable) &nbsp;·&nbsp; Replacement cost ${fmtFull(r.replacecost)} (SHRM 2025)</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:6px 4px;color:#3a4a5c;font-weight:600;">Manager effectiveness</td>
+            <td style="padding:6px 4px;color:#0d1b2a;font-weight:300;">1% team output lift across ${r.mgrs} managers (Gallup 2025: 70% of engagement variance = manager)</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e0d8;">
+            <td style="padding:6px 4px;color:#3a4a5c;font-weight:600;">Value capture rate</td>
+            <td style="padding:6px 4px;color:#0d1b2a;font-weight:300;">${r.realizePct} applied to operational drivers only &nbsp;·&nbsp; 0.7× overlap adjustment applied &nbsp;·&nbsp; Retention unadjusted</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 4px;color:#3a4a5c;font-weight:600;">Sources</td>
+            <td style="padding:6px 4px;color:#0d1b2a;font-weight:300;">Gallup State of the Global Workplace 2025 &nbsp;·&nbsp; SHRM Human Capital Benchmarking Report 2025</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="font-size:7pt;color:#aaa;font-style:italic;border-top:1px solid #e4e0d8;padding-top:8px;margin-top:20px;">
+        This model quantifies the economic exposure associated with turnover and performance gaps, helping evaluate the cost of inaction. Designed to support internal business cases for HR and Finance stakeholders.
+        These are directional estimates based on conservative assumptions. Not a guaranteed financial forecast. &nbsp;·&nbsp; FranklinCovey All Access Pass® &nbsp;·&nbsp; franklincovey.com
+      </div>
+    </div>
+    <div class="pr-page-break"></div>
+  `;
+
+  const html = execSummary + `
     <div class="pr-header">
       <div class="pr-brand">FranklinCovey &nbsp;·&nbsp; All Access Pass®</div>
       <div class="pr-title">ROI &amp; Impact Summary</div>
@@ -1731,7 +1822,7 @@ function printReport() {
   const retImprPct  = Math.round(r.retentionImprovementRate * 100);  // 10
   const mgrLiftPct  = Math.round(r.mgrTeamLift * 100);              // 1
   const overlapFactor = 0.70;
-  const roiCalc     = investment > 0
+  const roiCalc     = r.investment > 0
     ? ((r.grossVal - r.investment) / r.investment * 100).toFixed(1)
     : '—';
   const paybackCalc = r.grossVal > 0
