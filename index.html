@@ -4,22 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FranklinCovey All Access Pass — ROI Calculator</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --navy:#0f2137;
   --navy-mid:#1a3a5c;
   --navy-light:#2563a8;
+  --fc-blue:#3b6de8;
+  --fc-blue-light:#6fa0f8;
   --fc-orange:#e8622a;
   --fc-orange-light:#fdf1ec;
   --fc-orange-mid:#f5a07a;
-  --cream:#faf8f5;
+  --cream:#f6f8fa;
   --white:#ffffff;
-  --rule:#e4e0d8;
-  --ink:#1a1a1a;
-  --ink-mid:#4a4a4a;
-  --ink-light:#999;
+  --rule:#dde3ea;
+  --ink:#0d1b2a;
+  --ink-mid:#3a4a5c;
+  --ink-light:#8a96a3;
   --green:#1a6b45;
   --green-light:#eaf4ee;
   --green-mid:#2d9966;
@@ -36,24 +38,26 @@
 body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;}
 
 /* ── HEADER ─────────────────────────────────── */
-.header{background:var(--navy);padding:0;overflow:hidden;}
-.header-inner{display:flex;align-items:stretch;min-height:96px;}
-.header-brand{background:var(--fc-orange);padding:1.25rem 1.75rem;display:flex;flex-direction:column;justify-content:center;min-width:200px;}
-.header-brand .brand-name{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;font-weight:600;line-height:1.2;}
-.header-brand .brand-sub{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-top:4px;}
-.header-title{padding:1.25rem 2rem;display:flex;flex-direction:column;justify-content:center;flex:1;}
-.header-title h1{font-family:'Playfair Display',serif;font-size:1.55rem;color:#fff;font-weight:500;letter-spacing:-0.01em;line-height:1.2;}
-.header-title p{font-size:0.73rem;color:rgba(255,255,255,0.4);font-weight:300;margin-top:5px;letter-spacing:0.04em;}
-.header-seal{padding:1.25rem 2rem;display:flex;align-items:center;gap:8px;margin-left:auto;}
-.seal-box{border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius);padding:7px 13px;text-align:center;}
-.seal-num{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--fc-orange);font-weight:600;line-height:1;}
-.seal-label{font-size:0.58rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:2px;}
+.header{background:#fff;padding:0;overflow:hidden;border-bottom:2px solid var(--rule);}
+.header-inner{display:flex;align-items:center;min-height:76px;padding:0 2rem;gap:0;}
+.header-brand{display:flex;align-items:center;gap:11px;padding:1rem 1.75rem 1rem 0;border-right:1px solid var(--rule);margin-right:1.75rem;flex-shrink:0;}
+.header-brand .brand-mark{width:34px;height:34px;flex-shrink:0;}
+.header-brand .brand-wordmark{display:flex;flex-direction:column;justify-content:center;}
+.header-brand .brand-name{font-family:'Inter',sans-serif;font-size:1.25rem;font-weight:700;color:#0d1b2a;letter-spacing:-0.025em;line-height:1;white-space:nowrap;}
+.header-brand .brand-sub{font-size:0.57rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-light);margin-top:4px;}
+.header-title{display:flex;flex-direction:column;justify-content:center;flex:1;}
+.header-title h1{font-family:'Inter',sans-serif;font-size:1.05rem;font-weight:600;color:var(--ink);letter-spacing:-0.01em;line-height:1.2;}
+.header-title p{font-size:0.68rem;color:var(--ink-light);font-weight:400;margin-top:3px;letter-spacing:0.01em;}
+.header-seal{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.seal-box{border:1px solid var(--rule);border-radius:var(--radius);padding:6px 12px;text-align:center;background:#f6f8fa;}
+.seal-num{font-family:'Inter',sans-serif;font-size:1.1rem;color:var(--ink);font-weight:700;line-height:1;letter-spacing:-0.01em;}
+.seal-label{font-size:0.56rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-top:2px;}
 
 /* ── TABS ─────────────────────────────────────── */
-.tabs{background:var(--navy-mid);display:flex;padding:0 2rem;border-bottom:1px solid rgba(255,255,255,0.07);}
-.tab{font-size:0.7rem;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.4);padding:13px 18px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;}
-.tab:hover{color:rgba(255,255,255,0.7);}
-.tab.active{color:#fff;border-bottom-color:var(--fc-orange);}
+.tabs{background:#f6f8fa;display:flex;padding:0 2rem;border-bottom:1px solid var(--rule);}
+.tab{font-size:0.68rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-light);padding:12px 18px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;}
+.tab:hover{color:var(--ink);}
+.tab.active{color:var(--ink);border-bottom-color:var(--fc-blue);}
 
 /* ── MAIN LAYOUT ─────────────────────────────── */
 .body-wrap{display:grid;grid-template-columns:372px 1fr;min-height:calc(100vh - 152px);}
@@ -340,6 +344,102 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
   .scenario-row{grid-template-columns:1fr;}
   .header-brand{min-width:unset;}
 }
+
+/* ── PRINT ───────────────────────────────────── */
+.no-print{} /* screen-only marker — hidden in print */
+
+@media print {
+  /* Hide the entire app shell */
+  .header, .tabs, .body-wrap, .toast, #printReport ~ * { display:none !important; }
+  body { background:#fff; margin:0; padding:0; }
+
+  /* Render the print report */
+  #printReport {
+    display:block !important;
+    position:static !important;
+    left:0 !important;
+    top:0 !important;
+    width:100% !important;
+    z-index:auto !important;
+    background:#fff;
+    padding:28px 36px;
+    margin:0;
+    font-family:'Inter',sans-serif;
+    font-size:9pt;
+    line-height:1.55;
+    color:#1a1a1a;
+  }
+
+  /* Print typography */
+  #printReport .pr-header { margin-bottom:18px; border-bottom:2px solid #0f2137; padding-bottom:12px; }
+  #printReport .pr-brand  { font-size:11pt; font-weight:700; color:#0f2137; letter-spacing:0.02em; }
+  #printReport .pr-title  { font-size:16pt; font-weight:600; color:#0f2137; margin:4px 0 2px; font-family:'Georgia',serif; }
+  #printReport .pr-meta   { font-size:8pt; color:#888; }
+
+  #printReport .pr-section-label {
+    font-size:7pt; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+    color:#888; border-bottom:1px solid #e4e0d8; padding-bottom:4px; margin:16px 0 8px;
+  }
+
+  /* Key metrics row */
+  #printReport .pr-metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:2px; }
+  #printReport .pr-metric  { background:#f8f8f6; border:1px solid #e4e0d8; border-radius:3px; padding:8px 10px; text-align:center; }
+  #printReport .pr-metric-val   { font-size:16pt; font-weight:700; color:#0f2137; font-family:'Georgia',serif; line-height:1; }
+  #printReport .pr-metric-label { font-size:7pt; text-transform:uppercase; letter-spacing:0.1em; color:#888; margin-top:3px; }
+  #printReport .pr-metric-sub   { font-size:7pt; color:#aaa; font-style:italic; margin-top:2px; }
+
+  /* Value split */
+  #printReport .pr-split  { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:4px; }
+  #printReport .pr-hard   { background:#eaf4ee; border:1px solid rgba(26,107,69,0.2); border-radius:3px; padding:8px 10px; }
+  #printReport .pr-soft   { background:#f0f4f8; border:1px solid rgba(26,58,92,0.15); border-radius:3px; padding:8px 10px; }
+  #printReport .pr-split-type  { font-size:7pt; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#1a6b45; margin-bottom:2px; }
+  #printReport .pr-soft .pr-split-type { color:#1a3a5c; }
+  #printReport .pr-split-name  { font-size:8pt; font-weight:600; color:#1a1a1a; }
+  #printReport .pr-split-val   { font-size:14pt; font-weight:700; color:#1a6b45; font-family:'Georgia',serif; line-height:1.1; }
+  #printReport .pr-soft .pr-split-val  { color:#1a3a5c; }
+  #printReport .pr-split-sub   { font-size:7pt; color:#888; margin-top:3px; }
+
+  /* Scenarios */
+  #printReport .pr-scen-row   { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:4px; }
+  #printReport .pr-scen       { border:1px solid #e4e0d8; border-radius:3px; padding:6px 8px; text-align:center; }
+  #printReport .pr-scen.sel   { border-color:#0f2137; background:#f0f4f8; }
+  #printReport .pr-scen-label { font-size:7pt; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#888; }
+  #printReport .pr-scen.sel .pr-scen-label { color:#0f2137; }
+  #printReport .pr-scen-val   { font-size:13pt; font-weight:700; color:#1a1a1a; font-family:'Georgia',serif; }
+  #printReport .pr-scen.sel .pr-scen-val   { color:#0f2137; }
+  #printReport .pr-scen-sub   { font-size:7pt; color:#888; }
+
+  /* Interpretation */
+  #printReport .pr-interp-line { font-size:8.5pt; color:#4a4a4a; padding:4px 0; border-bottom:1px solid #f0ede8; line-height:1.5; }
+  #printReport .pr-interp-line:last-child { border-bottom:none; }
+  #printReport .pr-interp-line b { color:#1a1a1a; }
+
+  /* Assumptions */
+  #printReport .pr-assumptions { font-size:7pt; color:#888; line-height:1.6; margin-top:4px; }
+  #printReport .pr-boundary    { font-size:7pt; color:#aaa; font-style:italic; margin-top:8px; text-align:center; }
+
+  /* Page break between pages */
+  .pr-page-break { page-break-before:always; break-before:page; }
+
+  /* Appendix (page 2) styles */
+  #printReport .pr-appendix { padding-top:20px; }
+  #printReport .pr-app-title { font-size:13pt; font-weight:700; color:#1a1a1a; margin-bottom:4px; font-family:'Georgia',serif; }
+  #printReport .pr-app-sub   { font-size:8pt; color:#888; margin-bottom:14px; }
+  #printReport .pr-app-section { margin-bottom:14px; }
+  #printReport .pr-app-head  { font-size:8pt; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#0f2137; background:#f4f4f4; padding:5px 8px; border-left:3px solid #0f2137; margin-bottom:0; }
+  #printReport .pr-app-row   { display:flex; justify-content:space-between; align-items:baseline; padding:4px 8px; border-bottom:1px solid #eeebe6; font-size:8pt; }
+  #printReport .pr-app-row:last-child { border-bottom:none; }
+  #printReport .pr-app-label { color:#4a4a4a; font-weight:300; }
+  #printReport .pr-app-val   { color:#1a1a1a; font-weight:600; white-space:nowrap; margin-left:12px; }
+  #printReport .pr-app-formula { font-size:7.5pt; color:#888; font-style:italic; padding:3px 8px 5px; border-bottom:1px solid #eeebe6; }
+  #printReport .pr-app-result { display:flex; justify-content:space-between; align-items:baseline; padding:6px 8px; background:#f8f8f6; border-top:1px solid #d0cdc8; font-size:8.5pt; font-weight:700; }
+  #printReport .pr-app-result .pr-app-val { font-size:10pt; color:#0f2137; }
+  #printReport .pr-app-note  { font-size:7pt; color:#aaa; font-style:italic; margin-top:16px; border-top:1px solid #e4e0d8; padding-top:8px; line-height:1.6; }
+
+  /* Hide buttons in print */
+  .no-print { display:none !important; }
+  button, input, select { display:none !important; }
+}
 </style>
 </head>
 <body>
@@ -348,8 +448,35 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
 <div class="header">
   <div class="header-inner">
     <div class="header-brand">
-      <div class="brand-name">FranklinCovey</div>
-      <div class="brand-sub">All Access Pass®</div>
+      <!-- FC compass mark — gradient blue, matching actual logo -->
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="fcg1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#2563e8"/>
+          </linearGradient>
+          <linearGradient id="fcg2" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#93c5fd"/>
+            <stop offset="100%" stop-color="#3b6de8"/>
+          </linearGradient>
+        </defs>
+        <!-- Top petal -->
+        <path d="M20 2 C20 2 16 10 16 16 C16 18.2 17.8 20 20 20 C20 20 20 20 20 20 C20 20 16 10 20 2Z" fill="url(#fcg1)"/>
+        <path d="M20 2 C20 2 24 10 24 16 C24 18.2 22.2 20 20 20 C20 20 20 20 20 20 C20 20 24 10 20 2Z" fill="url(#fcg2)"/>
+        <!-- Bottom petal -->
+        <path d="M20 38 C20 38 16 30 16 24 C16 21.8 17.8 20 20 20 C20 20 20 20 20 20 C20 20 16 30 20 38Z" fill="url(#fcg2)"/>
+        <path d="M20 38 C20 38 24 30 24 24 C24 21.8 22.2 20 20 20 C20 20 20 20 20 20 C20 20 24 30 20 38Z" fill="url(#fcg1)"/>
+        <!-- Left petal -->
+        <path d="M2 20 C2 20 10 16 16 16 C18.2 16 20 17.8 20 20 C20 20 20 20 20 20 C20 20 10 16 2 20Z" fill="url(#fcg2)"/>
+        <path d="M2 20 C2 20 10 24 16 24 C18.2 24 20 22.2 20 20 C20 20 20 20 20 20 C20 20 10 24 2 20Z" fill="url(#fcg1)"/>
+        <!-- Right petal -->
+        <path d="M38 20 C38 20 30 16 24 16 C21.8 16 20 17.8 20 20 C20 20 20 20 20 20 C20 20 30 16 38 20Z" fill="url(#fcg1)"/>
+        <path d="M38 20 C38 20 30 24 24 24 C21.8 24 20 22.2 20 20 C20 20 20 20 20 20 C20 20 30 24 38 20Z" fill="url(#fcg2)"/>
+      </svg>
+      <div class="brand-wordmark">
+        <div class="brand-name">FranklinCovey</div>
+        <div class="brand-sub">All Access Pass®</div>
+      </div>
     </div>
     <div class="header-title">
       <h1>ROI &amp; Impact Calculator</h1>
@@ -465,19 +592,19 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
         <span class="pfx">$</span>
         <input type="number" id="replacecost" value="42500" min="0" oninput="onReplaceCostChange()">
       </div>
-      <div class="field-hint">Typically 50–200% of annual salary &nbsp;·&nbsp; <a href="#" id="resetReplace" class="rc-reset" onclick="resetReplaceCost();return false;" style="display:none;">Use 50% of salary</a><span id="resetReplaceAuto" class="rc-auto">Auto: 50% of salary</span></div>
+      <div class="field-hint">Hiring, onboarding, vacancy, and ramp-up productivity loss &nbsp;·&nbsp; <a href="#" id="resetReplace" class="rc-reset" onclick="resetReplaceCost();return false;" style="display:none;">Use 50% of salary</a><span id="resetReplaceAuto" class="rc-auto">Auto: 50% of salary (SHRM lower-bound)</span></div>
     </div>
 
     <div class="divider"></div>
     <div class="section-head"><span>All Access Pass investment</span></div>
 
     <div class="field">
-      <label>Pass price per seat / year</label>
+      <label>Total investment per seat / year</label>
       <div class="input-wrap has-pfx">
         <span class="pfx">$</span>
         <input type="number" id="passPrice" value="500" min="0" oninput="calc()">
       </div>
-      <div class="field-hint">Adjust to your quoted price</div>
+      <div class="field-hint">All-in cost per seat incl. pass, facilitation, coaching, or any optional add-ons</div>
     </div>
 
     <div class="field">
@@ -490,8 +617,8 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
     <div class="field">
       <label>Realistic value capture</label>
       <div class="realize-wrap">
-        <input type="range" id="realize" min="25" max="100" step="25" value="50" oninput="calc()">
-        <span class="realize-pct" id="realizeOut">50%</span>
+        <input type="range" id="realize" min="25" max="100" step="25" value="40" oninput="calc()">
+        <span class="realize-pct" id="realizeOut">40%</span>
       </div>
       <div class="field-hint">Applies to productivity gains only, not hard cost savings &nbsp;·&nbsp; "What % of the modeled value will actually show up in the business?"</div>
     </div>
@@ -536,10 +663,6 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
       <div class="challenge-chip" data-id="4dx" onclick="toggleChallenge(this)">
         <div class="cc-name">Strategy not getting executed</div>
         <div class="cc-tag">4DX &rarr; leaders &amp; teams</div>
-      </div>
-      <div class="challenge-chip" data-id="6cp" onclick="toggleChallenge(this)">
-        <div class="cc-name">Teams lacking direction &amp; clarity</div>
-        <div class="cc-tag">6 Critical Practices &rarr; first-level</div>
       </div>
       <div class="challenge-chip" data-id="change" onclick="toggleChallenge(this)">
         <div class="cc-name">Change resistance / transformation</div>
@@ -590,14 +713,17 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
           <button class="ft-btn"        id="ftHardOnly" onclick="setFinanceView('hard')">Conservative Floor (Retention Only)</button>
         </div>
 
+        <!-- Boundary statement -->
+        <div style="font-size:0.65rem;color:var(--ink-light);font-weight:300;font-style:italic;margin-bottom:8px;line-height:1.5;">This model estimates economic exposure and potential impact. It is not a financial forecast or guarantee of results.</div>
+
         <!-- 1. Main summary banner -->
         <div class="summary-banner">
           <div>
             <div class="sb-label" id="bannerLabel">Estimated total annual value</div>
             <div class="sb-val" id="totalVal">—</div>
             <div class="sb-sub" id="bannerSub">Base scenario · 50% value capture applied</div>
-            <div class="sb-source">Based on conservative benchmarks from Gallup and SHRM</div>
-            <div class="sb-assumptions"><strong>Conservative assumptions:</strong> &nbsp;10% of disengaged employees improve &nbsp;·&nbsp; 1% manager-driven output lift &nbsp;·&nbsp; 10% reduction in preventable turnover</div>
+            <div class="sb-source">Model uses conservative assumptions and partial value capture — not full theoretical upside. Based on Gallup and SHRM benchmarks.</div>
+            <div class="sb-assumptions"><strong>Conservative assumptions:</strong> &nbsp;~7% improvement (conservative vs. benchmark ranges) &nbsp;·&nbsp; 1% manager-driven output lift &nbsp;·&nbsp; 10% reduction in preventable turnover</div>
           </div>
           <div class="sb-right">
             <div class="sb-stat">
@@ -609,6 +735,7 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
               <div class="sb-stat-val" id="payback">—</div>
               <div class="sb-stat-label" id="labelPayback">Payback</div>
               <div class="sb-stat-context" id="paybackContext">Retention-only floor</div>
+              <div class="sb-stat-context visible" style="font-style:normal;margin-top:1px;">Annualized · ramps over time</div>
             </div>
             <div class="sb-stat">
               <div class="sb-stat-val" id="perPerson">—</div>
@@ -622,13 +749,13 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
         <div class="value-split">
           <div class="vs-box hard">
             <div class="vs-type">Hard savings (realized cash impact)</div>
-            <div class="vs-name">Retention</div>
+            <div class="vs-name">Retention — direct cost avoidance</div>
             <div class="vs-val" id="retentionVal">—</div>
-            <div class="vs-sub">Exits avoided × replacement cost. No realization discount — these are real avoided costs.</div>
+            <div class="vs-sub">Exits avoided × replacement cost (50–150% of salary; hiring, onboarding, vacancy &amp; ramp-up). No realization discount — these are direct avoided costs.</div>
           </div>
           <div class="vs-box soft" id="softBox">
-            <div class="vs-type">Operational value (modeled productivity impact)</div>
-            <div class="vs-name">Engagement + Manager Lift</div>
+            <div class="vs-type">Operational value (capacity impact — overlap-adjusted)</div>
+            <div class="vs-name">Engagement + Manager Effectiveness</div>
             <div class="vs-val" id="opVal">—</div>
             <div class="vs-sub" id="opValSub">Productivity &amp; output gains after <span id="realizeLabel">50%</span> value capture applied.</div>
           </div>
@@ -640,17 +767,17 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
           <div class="scen-card" id="scenCardLow" onclick="selectScenario('low')">
             <div class="scen-label">Low</div>
             <div class="scen-val" id="scenLow">—</div>
-            <div class="scen-sub" id="scenLowSub">50% of base</div>
+            <div class="scen-sub" id="scenLowSub">Partial Execution</div>
           </div>
           <div class="scen-card selected" id="scenCardBase" onclick="selectScenario('base')">
             <div class="scen-label">Base</div>
             <div class="scen-val" id="scenBase">—</div>
-            <div class="scen-sub" id="scenBaseSub">Current inputs</div>
+            <div class="scen-sub" id="scenBaseSub">Expected Execution</div>
           </div>
           <div class="scen-card" id="scenCardHigh" onclick="selectScenario('high')">
             <div class="scen-label">High</div>
             <div class="scen-val" id="scenHigh">—</div>
-            <div class="scen-sub" id="scenHighSub">150% of base</div>
+            <div class="scen-sub" id="scenHighSub">Strong Execution</div>
           </div>
         </div>
 
@@ -677,7 +804,7 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
             <div class="bb-row"><span>Employees in scope</span><span class="bb-val" id="bEmp">—</span></div>
             <div class="bb-row"><span>Annual fully-loaded payroll</span><span class="bb-val" id="bPayroll">—</span></div>
             <div class="bb-row"><span>Not-fully-engaged employees × productivity cost <span class="source-tag">Gallup 2025: 79% not fully engaged; ~18% of salary in lost productivity</span></span><span class="bb-val" id="bEngaged">—</span></div>
-            <div class="bb-result"><span>Engagement value (10% improve × <span id="bRealizeLabel">50%</span> capture)</span><span class="bb-val" id="bEngagedVal">—</span></div>
+            <div class="bb-result"><span>Engagement value &nbsp;<span class="source-tag">18% disengagement cost (Gallup) × 7% improvement (conservative) × <span id="bRealizeLabel">40%</span> capture</span></span><span class="bb-val" id="bEngagedVal">—</span></div>
           </div>
 
           <!-- Driver 2 -->
@@ -686,7 +813,7 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
               <span class="bb-driver-title">Driver 2 — Voluntary Turnover</span>
               <span class="bb-driver-type">Hard savings — no discount applied</span>
             </div>
-            <div class="bb-driver-desc">Real avoided costs from reducing preventable exits. Gallup 2025: 42% of exits are preventable. SHRM 2025: replacement = 50–200% of salary.</div>
+            <div class="bb-driver-desc">Direct cost avoidance from reducing preventable exits. Replacement cost = hiring + onboarding + vacancy + ramp-up productivity loss. Gallup 2025: 42% of exits are preventable. SHRM 2025: replacement = 50–200% of salary; model uses conservative 50% floor.</div>
             <div class="bb-row"><span>Annual exits avoided <span class="source-tag">10% reduction applied — well below Gallup benchmark</span></span><span class="bb-val" id="bExits">—</span></div>
             <div class="bb-result"><span>Retention savings (exits avoided × replacement cost)</span><span class="bb-val" id="bRetention">—</span></div>
           </div>
@@ -697,14 +824,16 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
               <span class="bb-driver-title">Driver 3 — Manager Effectiveness</span>
               <span class="bb-driver-type">Operational value</span>
             </div>
-            <div class="bb-driver-desc">Output lift from better-equipped managers. Gallup 2025: 70% of team engagement variance is attributable to the manager. Model uses only 1% team output lift.</div>
+            <div class="bb-driver-desc">Managers act as force multipliers — small improvements in their effectiveness impact entire teams. Gallup 2025: 70% of team engagement variance is attributable to the manager. Model uses only 1% team output lift — well below what research supports.</div>
             <div class="bb-row"><span id="bLeaderCalc">Manager team lift</span><span class="bb-val" id="bLeaderCalcVal">—</span></div>
-            <div class="bb-result"><span>Manager effectiveness value (<span id="bRealizeLabel2">50%</span> capture)</span><span class="bb-val" id="bLeader">—</span></div>
+            <div class="bb-result"><span>Manager effectiveness value (<span id="bRealizeLabel2">40%</span> capture)</span><span class="bb-val" id="bLeader">—</span></div>
           </div>
 
           <!-- Summary -->
           <div class="bb-summary">
-            <div class="bb-summary-row"><span>All Access Pass investment (total)</span><span class="bb-val" id="bInvest">—</span></div>
+            <div class="bb-summary-row"><span>Engagement + manager value (pre-adjustment)</span><span class="bb-val" id="bOpValRaw">—</span></div>
+            <div class="bb-summary-row"><span>Overlap adjustment <span class="source-tag">0.7× applied — avoids double-counting shared population effects</span></span><span class="bb-val" id="bOverlap">—</span></div>
+            <div class="bb-summary-row"><span>Total investment (all seats)</span><span class="bb-val" id="bInvest">—</span></div>
             <div class="bb-summary-row net"><span>Net annual value</span><span class="bb-val" id="bNet">—</span></div>
           </div>
         </div>
@@ -715,12 +844,12 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
         </div>
 
         <div class="assumption">
-          <strong>Sources &amp; assumptions:</strong> Engagement: Gallup State of the Global Workplace 2025 — only 21% of employees globally are engaged; disengagement costs ~18% of salary in lost productivity; 70% of team engagement variance is attributable to the manager. This model claims only 10% of disengaged employees improve. Retention: Gallup 2025 found 42% of exits are preventable; we use a conservative 10% reduction. Replacement cost: SHRM 2025 — 50–200% of annual salary (model defaults to 50%). Manager effectiveness: Gallup 2025 links manager engagement directly to $438B in lost global productivity; model uses only 1% team output lift across avg team of 7. All assumptions are intentionally conservative — actual outcomes with sustained behavior change typically exceed these estimates.
+          <strong>Sources &amp; assumptions:</strong> Engagement: Gallup State of the Global Workplace 2025 — only 21% of employees globally are engaged; disengagement costs ~18% of salary in lost productivity; 70% of team engagement variance is attributable to the manager. This model assumes only 7% of disengaged employees improve — below the Gallup benchmark. Retention: Gallup 2025 found 42% of exits are preventable; we use a conservative 10% reduction. Replacement cost: SHRM 2025 — 50–200% of annual salary (model defaults to 50%). Manager effectiveness: Gallup 2025 links manager engagement directly to $438B in lost global productivity; model uses only 1% team output lift across avg team of 7. Operational drivers (engagement + manager effectiveness) are adjusted by 0.7× to reduce potential overlap in affected employee populations. Retention savings are kept separate and unadjusted as direct cost avoidance. &nbsp;Even partial adoption or uneven execution can create measurable value; this model does not assume perfect rollout. &nbsp;Hard savings such as retention typically appear earlier, while productivity and manager-effectiveness gains build over time. &nbsp;Delaying action preserves current cost exposure without reducing underlying risk.
         </div>
 
-        <div class="cta-row">
+        <div class="cta-row no-print">
           <button class="btn btn-primary" id="copyBtn" onclick="copyResults()">&#9112; &nbsp;Copy Results to Clipboard</button>
-          <button class="btn btn-secondary" onclick="window.print()">Print</button>
+          <button class="btn btn-secondary" onclick="printReport()">&#8681; &nbsp;Download as PDF</button>
         </div>
 
       </div>
@@ -734,6 +863,9 @@ input[readonly]{background:#f4f7f4;color:var(--ink-mid);cursor:default;}
 
   </div>
 </div>
+
+<!-- Print report (hidden on screen, shown when printing) -->
+<div id="printReport" style="position:fixed;left:-99999px;top:0;width:800px;background:#fff;z-index:-1;font-family:'Inter',sans-serif;font-size:9pt;line-height:1.55;color:#1a1a1a;"></div>
 
 <div class="toast" id="toast">Results copied to clipboard ✓</div>
 
@@ -1128,7 +1260,7 @@ function calc() {
   const replacecost= parseFloat(document.getElementById('replacecost').value)||0;
   const passPrice  = parseFloat(document.getElementById('passPrice').value)||0;
   const seats      = parseFloat(document.getElementById('seats').value)||0;
-  const realize    = parseFloat(document.getElementById('realize').value)/100 || 0.5;
+  const realize    = parseFloat(document.getElementById('realize').value)/100 || 0.4;
   const lens       = document.getElementById('valueLens').value;
   const revPerEmp  = parseFloat(document.getElementById('revPerEmp').value)||250000;
 
@@ -1150,7 +1282,7 @@ function calc() {
   // ── DRIVER 1: ENGAGEMENT ─────────────────────────────────────────────────
   const disengagedShare          = 0.79;
   const disengagedCostRate       = 0.18;
-  const engagementImprovementRate= 0.10;
+  const engagementImprovementRate= 0.07;   // conservative: 7% of disengaged employees improve
   const engagementRaw = payroll * disengagedShare * disengagedCostRate * engagementImprovementRate;
   const engagementVal = engagementRaw * realize;   // realization applied
 
@@ -1168,8 +1300,11 @@ function calc() {
   const leaderVal   = leaderRaw * realize;         // realization applied
 
   // ── TOTALS ────────────────────────────────────────────────────────────────
-  const opVal      = engagementVal + leaderVal;
-  const grossVal   = opVal + retentionVal;
+  // Overlap adjustment on operational drivers only (engagement + manager effects share
+  // some of the same population; 0.7 factor avoids double-counting capacity gains)
+  const opValRaw   = engagementVal + leaderVal;
+  const opVal      = opValRaw * 0.70;
+  const grossVal   = opVal + retentionVal;         // retention kept separate, unadjusted
   const netVal     = grossVal - investment;
   const roi        = investment > 0 ? ((grossVal - investment)/investment)*100 : 0;
   const paybackMo  = grossVal > 0 ? (investment/(grossVal/12)) : 0;
@@ -1213,9 +1348,9 @@ function calc() {
   const scenMultipliers = { low: 0.5, base: 1.0, high: 1.5 };
   const scenMult = scenMultipliers[activeScenario] || 1.0;
   const scenLabels = {
-    low:  isHardOnly ? 'Conservative floor · low scenario (50%)' : 'Low scenario (50% of base)',
-    base: isHardOnly ? 'Minimum realized value based on avoided turnover only. Does not include productivity or capacity gains.' : 'Base scenario \u00b7 ' + realizePct + ' value capture applied',
-    high: isHardOnly ? 'Conservative floor · high scenario (150%)' : 'High scenario (150% of base)'
+    low:  isHardOnly ? 'Conservative floor · Partial Execution' : 'Partial Execution · ' + realizePct + ' value capture applied',
+    base: isHardOnly ? 'Minimum realized value based on avoided turnover only. Does not include productivity or capacity gains.' : 'Expected Execution · ' + realizePct + ' value capture applied',
+    high: isHardOnly ? 'Conservative floor · Strong Execution'  : 'Strong Execution · ' + realizePct + ' value capture applied'
   };
 
   const bannerSubText = scenLabels[activeScenario];
@@ -1251,9 +1386,9 @@ function calc() {
   setText('scenLow',     fmt(scenLow));
   setText('scenBase',    fmt(grossVal));
   setText('scenHigh',    fmt(scenHigh));
-  setText('scenLowSub',  isHardOnly ? '50% of full model'  : '50% of base');
-  setText('scenBaseSub', isHardOnly ? 'Full-model base'    : 'Current inputs');
-  setText('scenHighSub', isHardOnly ? '150% of full model' : '150% of base');
+  setText('scenLowSub',  isHardOnly ? 'Partial Execution (floor)'   : 'Partial Execution');
+  setText('scenBaseSub', isHardOnly ? 'Expected Execution (floor)'  : 'Expected Execution');
+  setText('scenHighSub', isHardOnly ? 'Strong Execution (floor)'    : 'Strong Execution');
 
   // Fix 5: show breakdown note only in hard-only mode
   const bNoteEl = document.getElementById('breakdownNote');
@@ -1268,30 +1403,30 @@ function calc() {
   // Interpretation lines — vary by lens
   const hiresAvoided = Math.round(exitsAvoided);
   if(lens==='cost'){
-    setHTML('interp1', 'Equivalent to <strong>avoiding '+hiresAvoided+' replacement hire'+(hiresAvoided!==1?'s':'')+' this year</strong> in hard recruiting &amp; onboarding cost.');
-    setHTML('interp2', 'Equivalent to <strong>'+equivFTEs+' additional employees worth of productive capacity</strong> — without adding headcount or payroll.');
-    setHTML('interp3', 'Manager effectiveness gains free up <strong>'+mgrHoursFree.toLocaleString()+' manager hours</strong> annually — reducing supervisory overhead and improving operating margin.');
+    setHTML('interp1', 'Avoiding <strong>'+hiresAvoided+' replacement hire'+(hiresAvoided!==1?'s':'')+' this year</strong> eliminates an estimated '+fmt(retentionVal)+' in recruiting, onboarding, and ramp-up cost.');
+    setHTML('interp2', '<strong>'+equivFTEs+' additional employees worth of productive capacity</strong> recovered from the existing workforce — no new headcount required.');
+    setHTML('interp3', '<strong>'+mgrHoursFree.toLocaleString()+' manager hours regained annually</strong> — capacity currently lost to disengagement and ineffective oversight, returned to productive work.');
   } else if(lens==='revenue'){
-    setHTML('interp1', 'Engagement and manager lift translate to approximately <strong>'+fmt(revenueEquiv)+' in potential revenue output</strong> at your revenue-per-employee rate.');
-    setHTML('interp2', 'Equivalent to adding <strong>'+equivFTEs+' quota-carrying employees</strong> worth of productive capacity — without the hiring cost.');
-    setHTML('interp3', 'Avoiding <strong>'+hiresAvoided+' exits</strong> this year protects '+fmt(retentionVal)+' in revenue-generating capacity that would otherwise be lost to backfill delay.');
+    setHTML('interp1', 'Engagement and manager lift translate to approximately <strong>'+fmt(revenueEquiv)+' in recoverable revenue output</strong> based on your revenue-per-employee rate.');
+    setHTML('interp2', '<strong>'+equivFTEs+' additional quota-carrying employees worth of capacity</strong> recovered from the existing team — without the cost of hiring.');
+    setHTML('interp3', 'Avoiding <strong>'+hiresAvoided+' exits</strong> this year protects '+fmt(retentionVal)+' in revenue-generating capacity that would otherwise be lost to backfill delay and ramp-up time.');
   } else if(lens==='stability'){
-    setHTML('interp1', 'Retention savings of <strong>'+fmt(retentionVal)+'</strong> represent real, budget-visible cash — '+hiresAvoided+' fewer backfill hire'+(hiresAvoided!==1?'s':'')+' at '+fmt(effectiveReplaceCost)+' each.');
-    setHTML('interp2', 'Beyond retention, engagement gains add the equivalent of <strong>'+equivFTEs+' employees worth of capacity</strong> — without adding headcount.');
-    setHTML('interp3', 'Reducing exits also preserves <strong>institutional knowledge and team continuity</strong> — the hidden cost of disruption that never appears in recruiting budgets.');
+    setHTML('interp1', '<strong>'+hiresAvoided+' fewer replacement hire'+(hiresAvoided!==1?'s':'')+' this year</strong> — '+fmt(retentionVal)+' in direct cost eliminated from the budget.');
+    setHTML('interp2', '<strong>'+equivFTEs+' employees worth of productive capacity recovered</strong> through engagement improvement — without adding headcount.');
+    setHTML('interp3', 'Each exit avoided also preserves team continuity and institutional knowledge — costs that never appear in recruiting budgets but show up in performance.');
   } else {
-    setHTML('interp1', 'Equivalent to a <strong>'+outputPct+'% increase in effective throughput</strong> from your existing workforce — more capacity delivered with the same headcount.');
-    setHTML('interp2', 'Like gaining <strong>'+equivFTEs+' additional full-capacity employees</strong> worth of utilization — without growing payroll.');
-    setHTML('interp3', 'Retention savings of <strong>'+fmt(retentionVal)+'</strong> represent real cash — avoiding '+hiresAvoided+' backfill hire'+(hiresAvoided!==1?'s':'')+' that would otherwise reduce available throughput.');
+    setHTML('interp1', '<strong>'+outputPct+'% increase in effective throughput</strong> from the existing workforce — more output delivered with the same headcount and payroll.');
+    setHTML('interp2', '<strong>'+equivFTEs+' additional full-capacity employees worth of utilization</strong> recovered — without growing the team.');
+    setHTML('interp3', 'Avoiding <strong>'+hiresAvoided+' backfill hire'+(hiresAvoided!==1?'s':'')+' eliminates '+fmt(retentionVal)+'</strong> in replacement cost that would otherwise reduce available throughput.');
   }
 
   // interp4 — grounded in their actual numbers
   let interp4Text = '';
   if (turnover > 0 && annualExits >= 1) {
-    interp4Text = 'You\'re currently losing ~'+Math.round(annualExits)+' employees per year. Even modest improvement (10%) prevents ~'+hiresAvoided+' exit'+(hiresAvoided!==1?'s':'')+' — before any productivity gains are considered.';
+    interp4Text = 'Currently losing ~'+Math.round(annualExits)+' employees per year. Even a conservative 10% reduction in preventable exits avoids ~'+hiresAvoided+' replacement hire'+(hiresAvoided!==1?'s':'')+' — before any productivity gains are counted.';
   } else if (mgrs > 0) {
     const mgrReach = mgrs * avgTeamSize;
-    interp4Text = 'With '+mgrs+' managers and ~'+avgTeamSize+' reports each, even a 1% output lift impacts ~'+mgrReach+' employees.';
+    interp4Text = 'With '+mgrs+' managers each leading ~'+avgTeamSize+' people, a 1% output lift reaches ~'+mgrReach+' employees — making manager effectiveness the highest-leverage driver in this model.';
   }
   if (interp4Text) setHTML('interp4', interp4Text);
   else setText('interp4', '');
@@ -1303,23 +1438,26 @@ function calc() {
   setText('bEmp',        emp.toLocaleString());
   setText('bPayroll',    fmtFull(payroll));
   setText('bEngaged',    Math.round(emp*disengagedShare).toLocaleString()+' employees (Gallup 2025: 79% not fully engaged)');
-  setText('bEngagedVal', fmtFull(engagementVal)+'  (18% cost × 10% improvement × '+realizePct+' capture)');
+  setText('bEngagedVal', fmtFull(engagementVal)+'  (18% cost × 7% improvement × '+realizePct+' capture)');
   setText('bExits',      exitsAvoided.toFixed(1)+' exits avoided  (10% of '+annualExits.toFixed(0)+' annual exits)');
   setText('bRetention',  fmtFull(retentionVal)+'  ('+fmtFull(effectiveReplaceCost)+' replacement cost × exits avoided)');
   setText('bLeaderCalc',    mgrs+' managers × '+avgTeamSize+' direct reports × 1% output lift × '+realizePct+' capture');
   setText('bLeaderCalcVal', fmtFull(leaderVal));
   setText('bLeader',     fmtFull(leaderVal));
+  setText('bOpValRaw',   fmtFull(opValRaw));
+  setText('bOverlap',    fmtFull(opVal) + '  (after 0.7× adjustment)');
   setText('bInvest',     fmtFull(investment));
   setText('bNet',        fmtFull(netVal));
 
   renderCourseRecs(challenges);
 
   window._calcResults = {emp,salary,mgrs,turnover,replacecost:effectiveReplaceCost,passPrice,seats,
-    investment,payroll,engagementVal,retentionVal,leaderVal,opVal,grossVal,netVal,roi,paybackMo,perSeat,
+    investment,payroll,engagementVal,retentionVal,leaderVal,opVal,opValRaw,grossVal,netVal,roi,paybackMo,perSeat,
     exitsAvoided,annualExits,challenges,realize,realizePct,lens,equivFTEs,outputPct,revenueEquiv,
     mgrHoursFree,hiresAvoided,scenLow,scenHigh,disengagedShare,retentionImprovementRate,avgTeamSize,
     financeView,displayVal,displayROI,displayPayback,displayPerSeat,isHardOnly,
-    activeScenario,scenMult,scenVal,scenROI,scenPayback,scenPerSeat};
+    activeScenario,scenMult,scenVal,scenROI,scenPayback,scenPerSeat,
+    engagementImprovementRate,disengagedCostRate:0.18,mgrTeamLift:0.01,leaderRaw,engagementRaw};
 }
 
 // ── COURSE RECS ───────────────────────────────────────────────────────────────
@@ -1385,7 +1523,7 @@ function copyResults() {
   const uniqueCourses = [...new Set(courseNames)];
 
   const isHard = r.isHardOnly;
-  const scenLabel = r.activeScenario === 'low' ? 'Low (50% of base)' : r.activeScenario === 'high' ? 'High (150% of base)' : 'Base';
+  const scenLabel = r.activeScenario === 'low' ? 'Low (Partial Execution)' : r.activeScenario === 'high' ? 'High (Strong Execution)' : 'Base (Expected Execution)';
   const viewLabel = isHard
     ? 'CONSERVATIVE FLOOR VIEW (Retention Only) — ' + scenLabel + ' scenario'
     : 'TOTAL VALUE VIEW — ' + scenLabel + ' scenario';
@@ -1416,7 +1554,7 @@ Organization Profile:
   Cost to replace employee:  ${fmtFull(r.replacecost)}
 
 All Access Pass Investment:
-  Price per seat / year:  ${fmtFull(r.passPrice)}
+  Total investment per seat / year:  ${fmtFull(r.passPrice)}
   Seats:                  ${r.seats}
   Total investment:       ${fmtFull(r.investment)}
 
@@ -1437,7 +1575,7 @@ VALUE BREAKDOWN (sourced assumptions)
 
   Engagement Value (${r.realizePct} capture):  ${fmtFull(r.engagementVal)}
     Gallup 2025: only 21% globally engaged; disengagement costs ~18% of salary.
-    Model claims only 10% of disengaged employees improve.
+    ~7% improvement (conservative vs. benchmark ranges) — intentionally under-modeling upside.
 
   Manager Effectiveness (${r.realizePct} capture):  ${fmtFull(r.leaderVal)}
     ${r.mgrs} managers x ${r.avgTeamSize} avg direct reports x 1% output lift.
@@ -1464,6 +1602,247 @@ FranklinCovey All Access Pass | franklincovey.com`;
       toast.classList.remove('show');
     },2500);
   });
+}
+
+// ── PRINT / PDF ───────────────────────────────────────────────────────────────
+function printReport() {
+  const r = window._calcResults;
+  if (!r) return;
+
+  const dateStr = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+  const viewLabel = r.isHardOnly ? 'Conservative Floor (Retention Only)' : 'Total Value View';
+  const scenLabel = r.activeScenario === 'low' ? 'Low — Partial Execution'
+                  : r.activeScenario === 'high' ? 'High — Strong Execution'
+                  : 'Base — Expected Execution';
+
+  // interp lines from DOM
+  const i1 = document.getElementById('interp1')?.innerHTML || '';
+  const i2 = document.getElementById('interp2')?.innerHTML || '';
+  const i3 = document.getElementById('interp3')?.innerHTML || '';
+  const i4 = document.getElementById('interp4')?.innerHTML || '';
+
+  const opValDisplay = fmt(r.opVal * r.scenMult);
+  const retDisplay   = fmt(r.retentionVal * r.scenMult);
+
+  const html = `
+    <div class="pr-header">
+      <div class="pr-brand">FranklinCovey &nbsp;·&nbsp; All Access Pass®</div>
+      <div class="pr-title">ROI &amp; Impact Summary</div>
+      <div class="pr-meta">${dateStr} &nbsp;·&nbsp; ${viewLabel} &nbsp;·&nbsp; Scenario: ${scenLabel}</div>
+    </div>
+
+    <div class="pr-section-label">Key metrics</div>
+    <div class="pr-metrics">
+      <div class="pr-metric">
+        <div class="pr-metric-val">${fmt(r.scenVal)}</div>
+        <div class="pr-metric-label">${r.isHardOnly ? 'Floor value' : 'Total annual value'}</div>
+        <div class="pr-metric-sub">${r.isHardOnly ? 'Retention only' : 'All drivers combined'}</div>
+      </div>
+      <div class="pr-metric">
+        <div class="pr-metric-val">${Math.round(r.scenROI)}%</div>
+        <div class="pr-metric-label">${r.isHardOnly ? 'Floor ROI' : 'ROI'}</div>
+        <div class="pr-metric-sub">vs. total investment</div>
+      </div>
+      <div class="pr-metric">
+        <div class="pr-metric-val">${r.scenPayback.toFixed(1)} mo</div>
+        <div class="pr-metric-label">${r.isHardOnly ? 'Floor payback' : 'Payback'}</div>
+        <div class="pr-metric-sub">Annualized · ramps over time</div>
+      </div>
+      <div class="pr-metric">
+        <div class="pr-metric-val">${fmt(r.scenPerSeat)}</div>
+        <div class="pr-metric-label">${r.isHardOnly ? 'Floor value / seat' : 'Value / seat'}</div>
+        <div class="pr-metric-sub">${r.seats} seats · ${fmtFull(r.passPrice)}/seat/yr</div>
+      </div>
+    </div>
+
+    <div class="pr-section-label">Value breakdown</div>
+    <div class="pr-split">
+      <div class="pr-hard">
+        <div class="pr-split-type">Hard savings — direct cost avoidance</div>
+        <div class="pr-split-name">Retention</div>
+        <div class="pr-split-val">${retDisplay}</div>
+        <div class="pr-split-sub">Exits avoided × replacement cost. No realization discount.</div>
+      </div>
+      <div class="pr-soft">
+        <div class="pr-split-type">Operational value — overlap-adjusted</div>
+        <div class="pr-split-name">Engagement + Manager Effectiveness</div>
+        <div class="pr-split-val">${opValDisplay}</div>
+        <div class="pr-split-sub">Productivity &amp; capacity gains after ${r.realizePct} value capture. 0.7× overlap adjustment applied.</div>
+      </div>
+    </div>
+
+    <div class="pr-section-label">Scenario range</div>
+    <div class="pr-scen-row">
+      <div class="pr-scen${r.activeScenario==='low'?' sel':''}">
+        <div class="pr-scen-label">Low</div>
+        <div class="pr-scen-val">${fmt(r.scenLow)}</div>
+        <div class="pr-scen-sub">Partial Execution</div>
+      </div>
+      <div class="pr-scen${r.activeScenario==='base'?' sel':''}">
+        <div class="pr-scen-label">Base</div>
+        <div class="pr-scen-val">${fmt(r.grossVal)}</div>
+        <div class="pr-scen-sub">Expected Execution</div>
+      </div>
+      <div class="pr-scen${r.activeScenario==='high'?' sel':''}">
+        <div class="pr-scen-label">High</div>
+        <div class="pr-scen-val">${fmt(r.scenHigh)}</div>
+        <div class="pr-scen-sub">Strong Execution</div>
+      </div>
+    </div>
+
+    <div class="pr-section-label">What this means</div>
+    <div class="pr-interp-line">${i1}</div>
+    <div class="pr-interp-line">${i2}</div>
+    <div class="pr-interp-line">${i3}</div>
+    <div class="pr-interp-line">${i4}</div>
+
+    <div class="pr-section-label">Organisation profile &amp; investment</div>
+    <div class="pr-assumptions">
+      Employees in scope: <b>${r.emp.toLocaleString()}</b> &nbsp;·&nbsp;
+      Avg. fully-loaded salary: <b>${fmtFull(r.salary)}</b> &nbsp;·&nbsp;
+      Managers / leaders: <b>${r.mgrs}</b> &nbsp;·&nbsp;
+      Voluntary turnover: <b>${r.turnover}%</b> &nbsp;·&nbsp;
+      Replacement cost: <b>${fmtFull(r.replacecost)}</b><br>
+      Total investment: <b>${fmtFull(r.investment)}</b> (${r.seats} seats × ${fmtFull(r.passPrice)}/seat/yr) &nbsp;·&nbsp;
+      Value capture (operational): <b>${r.realizePct}</b>
+    </div>
+
+    <div class="pr-section-label">Sources &amp; assumptions</div>
+    <div class="pr-assumptions">
+      Engagement: Gallup 2025 — 79% not fully engaged; disengagement costs ~18% of salary. Model uses only 7% improvement (conservative vs. benchmark).
+      Retention: Gallup 2025 — 42% of exits preventable; model uses conservative 10% reduction. Replacement cost (SHRM 2025): 50–200% of salary; model defaults to 50% floor.
+      Manager effectiveness: Gallup 2025 — 70% of team engagement variance = manager; model uses only 1% output lift.
+      Operational drivers adjusted by 0.7× to avoid double-counting. Retention savings kept separate and unadjusted.
+      Hard savings such as retention typically appear earlier; productivity gains build over time.
+    </div>
+
+    <div class="pr-boundary">
+      This model estimates economic exposure and potential impact. It is not a financial forecast or guarantee of results. &nbsp;·&nbsp; FranklinCovey All Access Pass® &nbsp;·&nbsp; franklincovey.com
+    </div>
+  `;
+
+  // ── PAGE 2: CALCULATION DETAIL APPENDIX ─────────────────────────────────────
+  // Reconstruct intermediate values from stored results for line-by-line display
+  const engPct      = Math.round(r.disengagedShare * 100);           // 79
+  const engCostPct  = Math.round(r.disengagedCostRate * 100);        // 18
+  const engImprPct  = Math.round(r.engagementImprovementRate * 100); // 7
+  const capturePct  = Math.round(r.realize * 100);                   // e.g. 40
+  const disengEmp   = Math.round(r.emp * r.disengagedShare);
+  const retImprPct  = Math.round(r.retentionImprovementRate * 100);  // 10
+  const mgrLiftPct  = Math.round(r.mgrTeamLift * 100);              // 1
+  const overlapFactor = 0.70;
+  const roiCalc     = investment > 0
+    ? ((r.grossVal - r.investment) / r.investment * 100).toFixed(1)
+    : '—';
+  const paybackCalc = r.grossVal > 0
+    ? (r.investment / (r.grossVal / 12)).toFixed(1)
+    : '—';
+
+  const appendix = `
+  <div class="pr-page-break"></div>
+  <div class="pr-appendix">
+
+    <div class="pr-header" style="margin-bottom:14px;">
+      <div class="pr-brand">FranklinCovey &nbsp;·&nbsp; All Access Pass®</div>
+      <div class="pr-app-title">Calculation Detail — Appendix</div>
+      <div class="pr-app-sub">Base-model figures (before scenario multiplier). All inputs reflect current calculator settings.</div>
+    </div>
+
+    <!-- A. Engagement / Productivity -->
+    <div class="pr-app-section">
+      <div class="pr-app-head">A &nbsp;·&nbsp; Engagement &amp; Productivity</div>
+      <div class="pr-app-formula">Formula: Payroll × % not fully engaged × disengagement cost rate × improvement rate × value capture</div>
+      <div class="pr-app-row"><span class="pr-app-label">Employees in scope</span><span class="pr-app-val">${r.emp.toLocaleString()}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Avg. fully-loaded salary</span><span class="pr-app-val">${fmtFull(r.salary)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Annual fully-loaded payroll</span><span class="pr-app-val">${fmtFull(r.payroll)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Not fully engaged (Gallup 2025: 79%)</span><span class="pr-app-val">${disengEmp.toLocaleString()} employees &nbsp;·&nbsp; ${engPct}% of workforce</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Disengagement productivity cost (Gallup: ~18% of salary)</span><span class="pr-app-val">${engCostPct}% of salary</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Improvement assumption (conservative)</span><span class="pr-app-val">${engImprPct}% of disengaged employees</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Value capture / realization rate</span><span class="pr-app-val">${capturePct}%</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Calculation</span><span class="pr-app-val">${fmtFull(r.payroll)} × ${engPct}% × ${engCostPct}% × ${engImprPct}% × ${capturePct}%</span></div>
+      <div class="pr-app-result"><span>Engagement value</span><span class="pr-app-val">${fmtFull(r.engagementVal)}</span></div>
+    </div>
+
+    <!-- B. Retention -->
+    <div class="pr-app-section">
+      <div class="pr-app-head">B &nbsp;·&nbsp; Voluntary Turnover — Hard Savings</div>
+      <div class="pr-app-formula">Formula: Annual exits × reduction rate × replacement cost per exit &nbsp;·&nbsp; No realization discount applied</div>
+      <div class="pr-app-row"><span class="pr-app-label">Employees in scope</span><span class="pr-app-val">${r.emp.toLocaleString()}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Voluntary turnover rate</span><span class="pr-app-val">${r.turnover}%</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Annual exits</span><span class="pr-app-val">${r.annualExits.toFixed(1)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Preventable exit reduction (Gallup 42% preventable — model uses conservative ${retImprPct}%)</span><span class="pr-app-val">${retImprPct}%</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Exits avoided</span><span class="pr-app-val">${r.exitsAvoided.toFixed(1)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Replacement cost per exit (SHRM 2025: 50–200% of salary; using 50% floor)</span><span class="pr-app-val">${fmtFull(r.replacecost)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Calculation</span><span class="pr-app-val">${r.exitsAvoided.toFixed(1)} exits × ${fmtFull(r.replacecost)}</span></div>
+      <div class="pr-app-result"><span>Retention savings (hard — no discount)</span><span class="pr-app-val">${fmtFull(r.retentionVal)}</span></div>
+    </div>
+
+    <!-- C. Manager Effectiveness -->
+    <div class="pr-app-section">
+      <div class="pr-app-head">C &nbsp;·&nbsp; Manager Effectiveness</div>
+      <div class="pr-app-formula">Formula: Managers × avg team size × salary × output lift × value capture</div>
+      <div class="pr-app-row"><span class="pr-app-label">Number of managers / leaders</span><span class="pr-app-val">${r.mgrs}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Average direct reports per manager</span><span class="pr-app-val">${r.avgTeamSize}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Manager reach (total employees impacted)</span><span class="pr-app-val">${(r.mgrs * r.avgTeamSize).toLocaleString()}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Output lift per managed employee (Gallup: model uses only 1%)</span><span class="pr-app-val">${mgrLiftPct}%</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Value capture / realization rate</span><span class="pr-app-val">${capturePct}%</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Calculation</span><span class="pr-app-val">${r.mgrs} × ${r.avgTeamSize} × ${fmtFull(r.salary)} × ${mgrLiftPct}% × ${capturePct}%</span></div>
+      <div class="pr-app-result"><span>Manager effectiveness value</span><span class="pr-app-val">${fmtFull(r.leaderVal)}</span></div>
+    </div>
+
+    <!-- D. Overlap Adjustment -->
+    <div class="pr-app-section">
+      <div class="pr-app-head">D &nbsp;·&nbsp; Overlap Adjustment — Operational Value</div>
+      <div class="pr-app-formula">Formula: (Engagement value + Manager value) × 0.7 &nbsp;·&nbsp; Reduces double-counting of shared employee populations</div>
+      <div class="pr-app-row"><span class="pr-app-label">Engagement value</span><span class="pr-app-val">${fmtFull(r.engagementVal)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Manager effectiveness value</span><span class="pr-app-val">${fmtFull(r.leaderVal)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Combined pre-adjustment</span><span class="pr-app-val">${fmtFull(r.opValRaw)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Overlap adjustment factor</span><span class="pr-app-val">0.70×</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Calculation</span><span class="pr-app-val">${fmtFull(r.opValRaw)} × 0.70</span></div>
+      <div class="pr-app-result"><span>Adjusted operational value</span><span class="pr-app-val">${fmtFull(r.opVal)}</span></div>
+    </div>
+
+    <!-- E. Total Value -->
+    <div class="pr-app-section">
+      <div class="pr-app-head">E &nbsp;·&nbsp; Total Annual Value</div>
+      <div class="pr-app-formula">Hard savings (unadjusted) + adjusted operational value</div>
+      <div class="pr-app-row"><span class="pr-app-label">Hard savings — retention</span><span class="pr-app-val">${fmtFull(r.retentionVal)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Adjusted operational value (engagement + managers)</span><span class="pr-app-val">${fmtFull(r.opVal)}</span></div>
+      <div class="pr-app-result"><span>Total base-model annual value</span><span class="pr-app-val">${fmtFull(r.grossVal)}</span></div>
+    </div>
+
+    <!-- F. ROI and Payback -->
+    <div class="pr-app-section">
+      <div class="pr-app-head">F &nbsp;·&nbsp; ROI &amp; Payback — Base Model</div>
+      <div class="pr-app-formula">ROI = (Total Value − Investment) ÷ Investment &nbsp;·&nbsp; Payback = Investment ÷ (Annual Value ÷ 12)</div>
+      <div class="pr-app-row"><span class="pr-app-label">Total investment (${r.seats} seats × ${fmtFull(r.passPrice)}/seat/yr)</span><span class="pr-app-val">${fmtFull(r.investment)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Total annual value</span><span class="pr-app-val">${fmtFull(r.grossVal)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Net annual value</span><span class="pr-app-val">${fmtFull(r.netVal)}</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">ROI calculation &nbsp; (${fmtFull(r.grossVal)} − ${fmtFull(r.investment)}) ÷ ${fmtFull(r.investment)}</span><span class="pr-app-val">${roiCalc}%</span></div>
+      <div class="pr-app-row"><span class="pr-app-label">Payback calculation &nbsp; ${fmtFull(r.investment)} ÷ (${fmtFull(r.grossVal)} ÷ 12)</span><span class="pr-app-val">${paybackCalc} months</span></div>
+    </div>
+
+    <div class="pr-app-note">
+      Appendix figures are directional estimates based on current inputs and benchmark assumptions. They support internal evaluation and are not a guaranteed forecast.
+      Base-model figures shown above are pre-scenario-multiplier. Active scenario (${r.activeScenario === 'low' ? 'Low — Partial Execution' : r.activeScenario === 'high' ? 'High — Strong Execution' : 'Base — Expected Execution'}) applies a ${r.scenMult}× multiplier to the total value for the headline on page 1.
+      Sources: Gallup State of the Global Workplace 2025 &nbsp;·&nbsp; SHRM 2025 Human Capital Benchmarking Report &nbsp;·&nbsp; FranklinCovey All Access Pass®
+    </div>
+
+  </div>
+  `;
+
+  const html_final = html + appendix;
+
+  const el = document.getElementById('printReport');
+  if (el) {
+    el.innerHTML = html_final;
+    console.log('[printReport] innerHTML length:', el.innerHTML.length, '| has content:', el.innerHTML.length > 100);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.print();
+      });
+    });
+  }
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
